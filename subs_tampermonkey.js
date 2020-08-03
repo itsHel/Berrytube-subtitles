@@ -8,8 +8,6 @@
 // @match        https://berrytube.tv/*
 // @match        https://www.berrytube.tv/*
 // @match        https://berrytube.berrypun.ch:8445/*
-// @match        http://tunnel.berrypun.ch/*
-// @match        http://tunnel.q-z.xyz/*
 // @match        http://btc.berrytube.tv:8000/*
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @grant        GM_addStyle
@@ -20,7 +18,7 @@
 
         // TO TEST IN HTML must take time using videoLength and background-size                 // Background-size version needs maltweaks to work
 
-        // EQ1, friendshipGames2, legendofeverfree2             - NOT FINISHED
+        // friendshipGames2                 - NOT FINISHED
 
         // upload
 
@@ -34,7 +32,7 @@
         let time = 0, videoLength = 0, part2AddedTime = 0, subsMovement = 0, pos = 0;
         let subsBase, nextPos, start, end, subs, subsInterval;
         let subsRunning = false, nextPaused = true, menuHidden = false;
-        const specials = ["HMx01", "HM", "forgotten-tc", "forgotten-fc", "FF", "FFx01", "legend of everfree", "LOE", "LOEx01", "friendship games", "FG", "FGx01"];
+        const specials = ["HMx01", "forgotten-tc", "forgotten-fc", "LOEx01", "FGx01"];
         
         $(function(){
             //$("#ytapiplayer").append("<div id=subs></div>");            // Needs to wait few seconds for load of vid
@@ -121,7 +119,7 @@
                         let url;
                         switch(epName){
                             //horse movie
-                            case "hm": case "hmx01":        
+                            case "hmx01":        
                                 url = "https://api.jsonbin.io/b/5efaf2b70bab551d2b6936ad/1";
                                 break;
                             //friendship games 
@@ -133,7 +131,7 @@
                                 url = "https://api.jsonbin.io/b/5efb1940bb5fbb1d25616984";
                                 break;
                             //legends of everyfree
-                            case "loe": case "loex01":                                      //*******************NOT finished********************************************************************************
+                            case "loex01":                        
                                 url = "https://api.jsonbin.io/b/5efb1a4f7f16b71d48a88f22";
                                 break;
                         }
@@ -145,13 +143,14 @@
                             startSubs(result.subs);
                         });
                     } else {  
-                    // Download subs from yayponies      - all eps + EQ1/2                              //**************EQ1*****NOT finished********************************************************************************
+                    // Download subs from yayponies      - all eps + EQ1/2                    
                         let temp, subsName;
-                        epName = epName.replace("YP-7R-", "");                                          
-                        if(epName.match(/rrx01/i) || epName.match(/rrx02/i)){
+                        if(epName.match(/RRx0[12]/i)){
                             epName = "EQG2";
-                        } else {
-                            epName = "0" + epName;
+                        } else if(epName.match(/EQGx0[12]/i)){
+                            epName = "EQG1";
+                        } else if(epName.match(/[1-9]x[0-9][0-9]/)){
+                            epName = "0" + epName.match(/[1-9]x[0-9][0-9]/)[0];
                         }
                         $.ajax({
                             method:"GET",
@@ -208,27 +207,27 @@
                 start = convertTime(subsBase.slice(nextPos - 12, nextPos));
                 end = convertTime(subsBase.slice(nextPos + 5, nextPos + 17));
                 // Add time if part 2
-                switch($("li.active .title").text()){
-                    case "HMx02":
+                switch($("li.active .title").text().toLowerCase()){
+                    case "hmx02":
                         part2AddedTime = (49 * 60 + 57) *1000 + 11200;
                         break;
-                    case "eq1":                                                             //*******************NOT finished********************************************************************************
-                        part2AddedTime = 0;
+                    case "eqgx02":                                                             
+                        part2AddedTime = (37 * 60 + 22) *1000;
                         break;
-                    case "RRx02":
+                    case "rrx02":
                         part2AddedTime = (35 * 60 + 35) *1000;
                         break;
                     case "friendshipGames2":                                                //*******************NOT finished********************************************************************************
                         part2AddedTime = 0;
                         break;
-                    case "legendofeverfree2":                                               //*******************NOT finished********************************************************************************
-                        part2AddedTime = 0;
+                    case "loex02":                                               
+                        part2AddedTime = (34 * 60 + 9) *1000;
                         break;
                 }
                 
                 // Takes time from left column and calculates current time from background property
-                //videoLength = convt($("li.active .time").text());
-                //time = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", "")) *1000 + subsMovement + part2AddedTime;
+                // videoLength = convt($("li.active .time").text());
+                // time = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", "")) *1000 + subsMovement + part2AddedTime;
 
                 PLAYER.getTime(function(playerTime){
                     time = playerTime *1000 + subsMovement + part2AddedTime;
@@ -321,6 +320,5 @@
 //  "https://api.jsonbin.io/b/5efb17ca0bab551d2b6945b1"         //friendship games  
 //  "https://api.jsonbin.io/b/5efb1940bb5fbb1d25616984"         //forgotten friendship
 //  "https://api.jsonbin.io/b/5efb1a4f7f16b71d48a88f22"         //legends of everyfree
-
 
 })();
