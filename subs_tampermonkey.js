@@ -23,7 +23,7 @@
         // upload
 
         // video id ="videowrap"
-        // video id ="ytapiplayer" - same but position relative   
+        // video id ="ytapiplayer" - same but position relative
         // $(".active .title")     - Title of playing now
 
         // https://jsonbin.io/     - login with Github
@@ -33,10 +33,10 @@
         let subsBase, nextPos, start, end, subs, subsInterval;
         let subsRunning = false, nextPaused = true, menuHidden = false;
         const specials = ["HMx01", "forgotten-tc", "forgotten-fc", "LOEx01", "FGx01"];
-        
+
         $(function(){
             //$("#ytapiplayer").append("<div id=subs></div>");            // Needs to wait few seconds for load of vid
-            $("#videowrap").append("<div id=subs></div>");            
+            $("#videowrap").append("<div id=subs></div>");
             $("body").append(`
                 <div style='display:inline-block;z-index:99999;transition:all 0.5s ease;position:relative;/*background:rgba(231, 228, 228, 1);*/' id=subsmenuwrapper>
                     <button class="subsbutton" style="float:left;height:26px;opacity:1;cursor:pointer;padding:1px 3px" id=subsStart><!--
@@ -66,7 +66,7 @@
             //$("#subs").html("that is not dead which can eternal lie<br>and with strange aeons...");
             let moveMail = setInterval(() => {
                 if($("#mailDiv").length){
-                    $("#mailDiv").css({left: "205px"});  
+                    $("#mailDiv").css({left: "205px"});
                     clearInterval(moveMail);
                 }
             }, 1000);
@@ -119,19 +119,19 @@
                         let url;
                         switch(epName){
                             //horse movie
-                            case "hmx01":        
+                            case "hmx01":
                                 url = "https://api.jsonbin.io/b/5efaf2b70bab551d2b6936ad/1";
                                 break;
-                            //friendship games 
+                            //friendship games
                             case "fg": case "fg":                                           //*******************NOT finished********************************************************************************
                                 url = "https://api.jsonbin.io/b/5efb17ca0bab551d2b6945b1";
                                 break;
                             //forgotten friendship
-                            case "forgotten-tc": case "forgotten-fc":                              
+                            case "forgotten-tc": case "forgotten-fc":
                                 url = "https://api.jsonbin.io/b/5efb1940bb5fbb1d25616984";
                                 break;
                             //legends of everyfree
-                            case "loex01":                        
+                            case "loex01":
                                 url = "https://api.jsonbin.io/b/5efb1a4f7f16b71d48a88f22";
                                 break;
                         }
@@ -142,8 +142,8 @@
                             }
                             startSubs(result.subs);
                         });
-                    } else {  
-                    // Download subs from yayponies      - all eps + EQ1/2                    
+                    } else {
+                    // Download subs from yayponies      - all eps + EQ1/2
                         let temp, subsName;
                         if(epName.match(/RRx0[12]/i)){
                             epName = "EQG2";
@@ -179,20 +179,22 @@
                 }
             });
             // Start button end
-            
+
             function startSubs(loadedSubs){
                 console.log("subs loaded");
                 $("#subsspinner").fadeOut();
                 // Observing title change
-                let observerNode = $(".active .title")[0];
+                let observerNode = $("#plul");
                 let titleObserver = new MutationObserver(function(mutation){
                     console.log("Subs stopped");
                     // End on title change
-                    $("#subsplaybutton").css({display:"block"});
-                    $("#subsstopbutton").css({display:"none"});
-                    clearInterval(subsInterval);
-                    $("#subs").html("");
-                    subsRunning = false;
+                    if(subsRunning){
+                        $("#subsplaybutton").css({display:"block"});
+                        $("#subsstopbutton").css({display:"none"});
+                        clearInterval(subsInterval);
+                        $("#subs").html("");
+                        subsRunning = false;
+                    }
                 });
                 titleObserver.observe(observerNode, { childList: true, attributes: true, characterData: true });
                 //
@@ -211,7 +213,7 @@
                     case "hmx02":
                         part2AddedTime = (49 * 60 + 57) *1000 + 11200;
                         break;
-                    case "eqgx02":                                                             
+                    case "eqgx02":
                         part2AddedTime = (37 * 60 + 22) *1000;
                         break;
                     case "rrx02":
@@ -220,11 +222,11 @@
                     case "friendshipGames2":                                                //*******************NOT finished********************************************************************************
                         part2AddedTime = 0;
                         break;
-                    case "loex02":                                               
+                    case "loex02":
                         part2AddedTime = (34 * 60 + 9) *1000;
                         break;
                 }
-                
+
                 // Takes time from left column and calculates current time from background property
                 // videoLength = convt($("li.active .time").text());
                 // time = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", "")) *1000 + subsMovement + part2AddedTime;
@@ -248,13 +250,13 @@
                         $("#subs").html("");
                     }
                     //time = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", "")) *1000 + subsMovement + part2AddedTime;
-                    
+
                     PLAYER.getTime(function(playerTime){
                         time = playerTime *1000 + subsMovement + part2AddedTime;
                     });
                 }, 250);
             }
-            
+
             function begin(){
                 // Puts subs in position and removes everything before
                 subs = subsBase;
@@ -265,7 +267,7 @@
                     end = convertTime(subs.slice(nextPos + 5, nextPos + 17));
                 }
             }
-            
+
             function next(){
                 subs = subs.slice(subs.indexOf("-->") + 4);
                 nextPos = subs.indexOf(" --> ");
@@ -273,14 +275,14 @@
                 end = convertTime(subs.slice(nextPos + 5, nextPos + 17));
                 nextPaused = true;
             }
-            
+
             function convt(clock){
                 if(clock.length == 5)
                     return parseInt(clock.slice(3)) + clock.slice(0,2) *60;
                 else
                     return parseInt(clock.slice(6)) + parseInt(clock.slice(3,5)) *60 + clock.slice(0,2) *3600;
-            }            
-            function convertTime(clock){               
+            }
+            function convertTime(clock){
                 clock = clock.replace(",", "");
                 let mSeconds = parseInt(clock.slice(6));
                 mSeconds += clock.slice(3, 5) *60000;
@@ -317,7 +319,7 @@
             `);
 
 //  "https://api.jsonbin.io/b/5efaf2b70bab551d2b6936ad/1"       //Horse movie
-//  "https://api.jsonbin.io/b/5efb17ca0bab551d2b6945b1"         //friendship games  
+//  "https://api.jsonbin.io/b/5efb17ca0bab551d2b6945b1"         //friendship games
 //  "https://api.jsonbin.io/b/5efb1940bb5fbb1d25616984"         //forgotten friendship
 //  "https://api.jsonbin.io/b/5efb1a4f7f16b71d48a88f22"         //legends of everyfree
 
