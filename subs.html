@@ -244,15 +244,17 @@
                 console.log("subs loaded");
                 $("#subsspinner").fadeOut();
                 // Observing title change
-                let observerNode = $(".active .title")[0];
+                let observerNode = $("#plul");
                 let titleObserver = new MutationObserver(function(mutation){
                     console.log("Subs stopped");
                     // End on title change
-                    $("#subsplaybutton").css({display:"block"});
-                    $("#subsstopbutton").css({display:"none"});
-                    clearInterval(subsInterval);
-                    $("#subs").html("");
-                    subsRunning = false;
+                    if(subsRunning){
+                        $("#subsplaybutton").css({display:"block"});
+                        $("#subsstopbutton").css({display:"none"});
+                        clearInterval(subsInterval);
+                        $("#subs").html("");
+                        subsRunning = false;
+                    }
                 });
                 titleObserver.observe(observerNode, { childList: true, attributes: true, characterData: true });
                 //
