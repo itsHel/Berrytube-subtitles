@@ -244,7 +244,7 @@
                 console.log("subs loaded");
                 $("#subsspinner").fadeOut();
                 // Observing title change
-                let observerNode = $("#plul");
+                let observerNode = $("#plul")[0];
                 let titleObserver = new MutationObserver(function(mutation){
                     console.log("Subs stopped");
                     // End on title change
