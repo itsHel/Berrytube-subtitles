@@ -45,10 +45,14 @@
     </head>
     
     <body>
-        <li cLass="volatile active" style="color:black;width:100px;top:0;border:1px solid red;list-style-type:none;background-size:50.00%">
-            <div class=time>10:00</div>
-            <div class=title>hmx01</div>
-        </li>
+        <ul id=plul>
+            <li cLass="volatile active" style="color:black;width:100px;top:0;border:1px solid red;list-style-type:none;background-size:50.00%">
+                <div class=time>10:00</div>
+                <div class=title>hmx01</div>
+            </li>
+            <li style="color:black">second</li>
+            <li style="color:black">third</li>
+        </ul>
         
         <div id=videowrap style="position:relative;width:70%;height:55%;border:1px solid red;"></div>
     </body>
@@ -256,7 +260,7 @@
                         subsRunning = false;
                     }
                 });
-                titleObserver.observe(observerNode, { childList: true, attributes: true, characterData: true });
+                titleObserver.observe(observerNode, { childList: true/*, attributes: true, characterData: false*/ });
                 //
                 subsBase = loadedSubs;
                 subsMovement = 0;
