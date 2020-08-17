@@ -250,7 +250,10 @@
                 // Observing title change
                 let observerNode = $("#plul")[0];
                 let titleObserver = new MutationObserver(function(mutation){
-                    console.log("Subs stopped");
+                    console.log("Subs stopped - mutation triggered");
+                    if (mutation.type === 'attributes'){
+                        console.log("mutation attributes changed");
+                    }
                     // End on title change
                     if(subsRunning){
                         $("#subsplaybutton").css({display:"block"});
