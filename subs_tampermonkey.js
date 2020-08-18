@@ -184,6 +184,7 @@
                 console.log("subs loaded");
                 $("#subsspinner").fadeOut();
                 // Observing title change
+                /*  OLD
                 let observerNode = $("#plul")[0];
                 let titleObserver = new MutationObserver(function(mutation){
                     console.log("Subs stopped - mutation triggered");
@@ -201,6 +202,42 @@
                 });
                 titleObserver.observe(observerNode, { childList: true/*, attributes: true, characterData: true*/ });
                 //
+                */
+            
+                /* other version            // observes on delete node, mb add 
+                let observerNode = $("#plul")[0];
+                let titleObserver = new MutationObserver(function(mutation){
+                    console.log("hello");
+                    if(mutation[0].removedNodes.length && subsRunning){
+                    // End on title change
+                        console.log("subs stopped");
+                        $("#subsplaybutton").css({display:"block"});
+                        $("#subsstopbutton").css({display:"none"});
+                        clearInterval(subsInterval);
+                        $("#subs").html("");
+                        subsRunning = false;
+                        titleObserver.disconnect();
+                    }
+                });
+                titleObserver.observe(observerNode, { childList: true });
+                */
+            
+                let observerNode = $(".volatile.active")[0];
+                let titleObserver = new MutationObserver(function(mutation){
+                    console.log("hello");
+                    if(mutation[0].attributeName == "class" && subsRunning){
+                    // End on title change
+                        console.log("subs stopped");
+                        $("#subsplaybutton").css({display:"block"});
+                        $("#subsstopbutton").css({display:"none"});
+                        clearInterval(subsInterval);
+                        $("#subs").html("");
+                        subsRunning = false;
+                        titleObserver.disconnect();
+                    }
+                });
+                titleObserver.observe(observerNode, { attributes: true });
+                
                 subsBase = loadedSubs;
                 subsMovement = 0;
                 part2AddedTime = 0;
