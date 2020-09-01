@@ -200,7 +200,7 @@
                         subsRunning = false;
                     }
                 });
-                titleObserver.observe(observerNode, { childList: true/*, attributes: true, characterData: true*/ });
+                titleObserver.observe(observerNode, { childList: true/*, attributes: true, characterData: true });
                 //
                 */
             
