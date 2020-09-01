@@ -200,11 +200,11 @@
                         subsRunning = false;
                     }
                 });
-                titleObserver.observe(observerNode, { childList: true/*, attributes: true, characterData: true });
+                titleObserver.observe(observerNode, { childList: true, attributes: true, characterData: true });
                 //
                 */
             
-                /* other version            // observes on delete node, mb add 
+                // other version            // observes on delete node, mb add 
                 let observerNode = $("#plul")[0];
                 let titleObserver = new MutationObserver(function(mutation){
                     console.log("hello");
@@ -220,8 +220,8 @@
                     }
                 });
                 titleObserver.observe(observerNode, { childList: true });
-                */
-            
+                
+            /*
                 let observerNode = $(".volatile.active")[0];
                 let titleObserver = new MutationObserver(function(mutation){
                     console.log("hello");
@@ -237,7 +237,7 @@
                     }
                 });
                 titleObserver.observe(observerNode, { attributes: true });
-                
+              */  
                 subsBase = loadedSubs;
                 subsMovement = 0;
                 part2AddedTime = 0;
