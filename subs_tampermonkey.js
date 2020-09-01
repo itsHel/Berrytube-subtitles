@@ -281,7 +281,7 @@
                         if(nextPaused){
                             let subsOutput = subs.match(/-->.*\r*\n(.+\r*\n.*)\r*\n/)[1];
                             $("#subs").html(subsOutput.replace("\n", "<br>"));
-                            //console.log(subsOutput);
+                            console.log(subsOutput);
                             nextPaused = false;
                         }
                     } else if(time > end && !nextPaused){
