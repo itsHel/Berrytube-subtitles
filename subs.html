@@ -344,17 +344,19 @@
                 videoLength = convt($("li.active .time").text());
                 
 
-                /*           -----------------------   MONKEY VERSION   -----------------------              */
+                /*           -----------------------   MONKEY VERSION   -----------------------                 */
                 // PLAYER.getTime(function(playerTime){
                 //     time = playerTime *1000 + subsMovement + part2AddedTime;
                 // });
-                /*           -----------------------   MONKEY VERSION END   -----------------------          */
+                /*           -----------------------   MONKEY VERSION END   -----------------------             */
                 
 
+                /*           -----------------------   HTML VERSION   -----------------------                   */
                 playerTime = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", ""));
                 time = PLAYER.getTime(function(playerTime){
                     return playerTime *1000 + subsMovement + part2AddedTime;
                 });
+                /*           -----------------------   HTML VERSION END   -----------------------               */
 
                 begin();
                 // Main interval
@@ -373,17 +375,19 @@
                     }
                     
 
-                    /*           -----------------------   MONKEY VERSION   -----------------------          */
-                    // PLAYER.getTime(function(playerTime){
-                    //     time = playerTime *1000 + subsMovement + part2AddedTime;
-                    // });
-                    /*           -----------------------   MONKEY VERSION END   -----------------------      */
+                /*           -----------------------   MONKEY VERSION   -----------------------                 */
+                // PLAYER.getTime(function(playerTime){
+                //     time = playerTime *1000 + subsMovement + part2AddedTime;
+                // });
+                /*           -----------------------   MONKEY VERSION END   -----------------------             */
+                
 
-
-                    playerTime = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", ""));
-                    time = PLAYER.getTime(function(playerTime){
-                       return playerTime *1000 + subsMovement + part2AddedTime;
-                    });
+                /*           -----------------------   HTML VERSION   -----------------------                   */
+                playerTime = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", ""));
+                time = PLAYER.getTime(function(playerTime){
+                    return playerTime *1000 + subsMovement + part2AddedTime;
+                });
+                /*           -----------------------   HTML VERSION END   -----------------------               */
                 }, 250);
             }
             
