@@ -19,6 +19,7 @@
             }
             html{
                 height: 100%;
+                background: rgba(0,0,0,0.1);
             }
             #subs{
                 border:1px solid red;
@@ -40,18 +41,29 @@
                 border: 1px solid #4ccfe9 !important;
                 background-color: #000;
             }
+            .volatile.active{
+                color:orange;
+                width:100px;
+                top:0;
+                border:1px solid red;
+                list-style-type:none;
+                background: url(https://cdn.pixabay.com/photo/2020/08/25/11/27/flowers-5516493_960_720.jpg);
+                background-size:50.00%;
+            }
         </style>
         <title>subsBT</title>
     </head>
     
     <body>
         <ul id=plul>
-            <li cLass="volatile active" style="color:black;width:100px;top:0;border:1px solid red;list-style-type:none;background-size:50.00%">
+            
+            <li cLass="volatile active">
                 <div class=time>10:00</div>
                 <div class=title>hmx01</div>
             </li>
             <li style="color:black">second</li>
             <li style="color:black">third</li>
+            <li style="color:black">fourth</li>
         </ul>
         
         <div id=videowrap style="position:relative;width:70%;height:55%;border:1px solid red;"></div>
@@ -62,9 +74,20 @@
         setInterval(() => {
             let size = parseFloat($(".volatile.active").css("background-size").slice(0, -1));
             $(".volatile.active").css({"background-size": (size - 0.0833) + "%"});
-            console.log($(".volatile.active").css("background-size"));
+            //console.log($(".volatile.active").css("background-size"));
         }, 500);
 
+        class myPLAYER{
+            getTime(playtime){
+                let mytime = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", ""));
+                //console.log(mytime);
+                return parseFloat(mytime*1000 + subsMovement + part2AddedTime);
+            }
+        }
+
+        var PLAYER = new myPLAYER();
+        var playerTime = 0;
+        
 // ==UserScript==
 // @name         subsBT
 // @author       Hel
@@ -80,25 +103,31 @@
 // @grant        GM_addStyle
 // ==/UserScript==
 
-        // TO TEST IN HTML must take time using videoLength and background-size                 // Background-size version needs maltweaks to work
+        // TO TEST IN HTML must change PLAYER time using videoLength and background-size                 // Background-size version needs maltweaks to work
+
 
         // friendshipGames2             - NOT FINISHED
 
         // upload
 
         // video id ="videowrap"
-        // video id ="ytapiplayer" - same but position relative   
-        // $(".active .title")     - Title of playing now
+        // video id ="ytapiplayer"      - same but position relative
 
-        // https://jsonbin.io/     - login with Github
+        // $(".volatile.active .title")             - title of playing now
+        // $(".volatile.active .time")              - videoLength of playing now
+
+        // https://jsonbin.io/          - uploaded by me subs                                   // login with Github
+
+        //time = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", "")) *1000 + subsMovement + part2AddedTime;             // old time - using background size from maltweaks
 
 
         let time = 0, videoLength = 0, part2AddedTime = 0, subsMovement = 0, pos = 0;
         let subsBase, nextPos, start, end, subs, subsInterval;
         let subsRunning = false, nextPaused = true, menuHidden = false;
-        const specials = ["HMx01", "forgotten-tc", "forgotten-fc", "LOEx01", "FGx01"];
+        const specials = ["HMx01", "forgotten-tc", "forgotten-fc", "LOEx01", "Friendship games - NOT finished"];
         
         $(function(){
+            // Init
             //$("#ytapiplayer").append("<div id=subs></div>");            // Needs to wait few seconds for load of vid
             $("#videowrap").append("<div id=subs></div>");            
             $("body").append(`
@@ -127,7 +156,7 @@
             $("#videowrap").css({"position":"relative"});
 
             $("#chatbuffer").css({fontSize:"125%"});
-            //$("#subs").html("that is not dead which can eternal lie<br>and with strange aeons...");
+            $("#subs").html("that is not dead which can eternal lie<br>and with strange aeons...");
             let moveMail = setInterval(() => {
                 if($("#mailDiv").length){
                     $("#mailDiv").css({left: "205px"});  
@@ -161,6 +190,42 @@
                     menuHidden = true;
                 }
             });
+
+            /*
+            // Observing class change, unnecessary trigger on backgroundsize change?
+            var observerNode = $("#plul")[0];
+            var titleObserver = new MutationObserver(function(mutation){
+                if (mutation[0].attributeName == 'class' && subsRunning){
+                    console.log("Observer by classChange triggered");
+                    console.log("Subs stopped");
+                        $("#subsplaybutton").css({display:"block"});
+                        $("#subsstopbutton").css({display:"none"});
+                        clearInterval(subsInterval);
+                        $("#subs").html("");
+                        subsRunning = false;
+                }
+            });
+            titleObserver.observe(observerNode, { childList: false, attributes: true, characterData: false, subtree: true });       // attributes   - classchange, styles change and more
+            
+            // subtree      - on childs too
+            //
+            */
+            
+            // Observing node deleting  
+            var observerNode = $("#plul")[0];
+            var titleObserver = new MutationObserver(function(mutation){
+                if(mutation[0].removedNodes.length && subsRunning){
+                    console.log("Observer by delete Node triggered");
+                    console.log("subs stopped");
+                    $("#subsplaybutton").css({display:"block"});
+                    $("#subsstopbutton").css({display:"none"});
+                    clearInterval(subsInterval);
+                    $("#subs").html("");
+                    subsRunning = false;
+                }
+            });
+            titleObserver.observe(observerNode, { childList: true });           // childlist    - listening on adding or removing new nodes to main element
+            // Init end
 
             // Start subs button
             $("#subsStart").on("click", () => {
@@ -247,62 +312,6 @@
             function startSubs(loadedSubs){
                 console.log("subs loaded");
                 $("#subsspinner").fadeOut();
-                // Observing title change
-                /*  OLD
-                let observerNode = $("#plul")[0];
-                let titleObserver = new MutationObserver(function(mutation){
-                    console.log("Subs stopped - mutation triggered");
-                    if (mutation.type === 'attributes'){
-                        console.log("mutation attributes changed");
-                    }
-                    // End on title change
-                    if(subsRunning){
-                        $("#subsplaybutton").css({display:"block"});
-                        $("#subsstopbutton").css({display:"none"});
-                        clearInterval(subsInterval);
-                        $("#subs").html("");
-                        subsRunning = false;
-                    }
-                });
-                titleObserver.observe(observerNode, { childList: true/*, attributes: true, characterData: true*/ });
-                //
-                */
-            
-                /* other version            // observes on delete node, mb add 
-                let observerNode = $("#plul")[0];
-                let titleObserver = new MutationObserver(function(mutation){
-                    console.log("hello");
-                    if(mutation[0].removedNodes.length && subsRunning){
-                    // End on title change
-                        console.log("subs stopped");
-                        $("#subsplaybutton").css({display:"block"});
-                        $("#subsstopbutton").css({display:"none"});
-                        clearInterval(subsInterval);
-                        $("#subs").html("");
-                        subsRunning = false;
-                        titleObserver.disconnect();
-                    }
-                });
-                titleObserver.observe(observerNode, { childList: true });
-                */
-            
-                let observerNode = $(".volatile.active")[0];
-                let titleObserver = new MutationObserver(function(mutation){
-                    console.log("hello");
-                    if(mutation[0].attributeName == "class" && subsRunning){
-                    // End on title change
-                        console.log("subs stopped");
-                        $("#subsplaybutton").css({display:"block"});
-                        $("#subsstopbutton").css({display:"none"});
-                        clearInterval(subsInterval);
-                        $("#subs").html("");
-                        subsRunning = false;
-                        titleObserver.disconnect();
-                    }
-                });
-                titleObserver.observe(observerNode, { attributes: true });
-                
-                //
                 subsBase = loadedSubs;
                 subsMovement = 0;
                 part2AddedTime = 0;
@@ -332,13 +341,21 @@
                         break;
                 }
                 
-                // Takes time from left column and calculates current time from background property
-                // videoLength = convt($("li.active .time").text());
-                // time = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", "")) *1000 + subsMovement + part2AddedTime;
+                videoLength = convt($("li.active .time").text());
+                
 
-                PLAYER.getTime(function(playerTime){
-                    time = playerTime *1000 + subsMovement + part2AddedTime;
+                /*           -----------------------   MONKEY VERSION   -----------------------              */
+                // PLAYER.getTime(function(playerTime){
+                //     time = playerTime *1000 + subsMovement + part2AddedTime;
+                // });
+                /*           -----------------------   MONKEY VERSION END   -----------------------          */
+                
+
+                playerTime = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", ""));
+                time = PLAYER.getTime(function(playerTime){
+                    return playerTime *1000 + subsMovement + part2AddedTime;
                 });
+
                 begin();
                 // Main interval
                 subsInterval = setInterval(function(){
@@ -346,7 +363,7 @@
                         if(nextPaused){
                             let subsOutput = subs.match(/-->.*\r*\n(.+\r*\n.*)\r*\n/)[1];
                             $("#subs").html(subsOutput.replace("\n", "<br>"));
-                            //console.log(subsOutput);
+                            console.log(subsOutput);
                             nextPaused = false;
                         }
                     } else if(time > end && !nextPaused){
@@ -354,10 +371,18 @@
                     } else {
                         $("#subs").html("");
                     }
-                    //time = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", "")) *1000 + subsMovement + part2AddedTime;
                     
-                    PLAYER.getTime(function(playerTime){
-                        time = playerTime *1000 + subsMovement + part2AddedTime;
+
+                    /*           -----------------------   MONKEY VERSION   -----------------------          */
+                    // PLAYER.getTime(function(playerTime){
+                    //     time = playerTime *1000 + subsMovement + part2AddedTime;
+                    // });
+                    /*           -----------------------   MONKEY VERSION END   -----------------------      */
+
+
+                    playerTime = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", ""));
+                    time = PLAYER.getTime(function(playerTime){
+                       return playerTime *1000 + subsMovement + part2AddedTime;
                     });
                 }, 250);
             }
