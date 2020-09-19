@@ -29,7 +29,7 @@
         // https://jsonbin.io/          - uploaded by me subs                                   // login with Github
 
         //time = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", "")) *1000 + subsMovement + part2AddedTime;             // old time - using background size from maltweaks
-
+        (function(){
 
         let time = 0, videoLength = 0, part2AddedTime = 0, subsMovement = 0, pos = 0;
         let subsBase, nextPos, start, end, subs, subsInterval;
@@ -120,21 +120,7 @@
             // subtree      - on childs too
             //
             */
-            
-            // Observing node deleting  
-            var observerNode = $("#plul")[0];
-            var titleObserver = new MutationObserver(function(mutation){
-                if(mutation[0].removedNodes.length && subsRunning){
-                    console.log("Observer by delete Node triggered");
-                    console.log("subs stopped");
-                    $("#subsplaybutton").css({display:"block"});
-                    $("#subsstopbutton").css({display:"none"});
-                    clearInterval(subsInterval);
-                    $("#subs").html("");
-                    subsRunning = false;
-                }
-            });
-            titleObserver.observe(observerNode, { childList: true });           // childlist    - listening on adding or removing new nodes to main element
+           
             // Init end
 
             // Start subs button
@@ -216,6 +202,22 @@
                         });
                     }
                 }
+                if (typeof observerNode === 'undefined') {
+                    // Observing node deleting  
+                    var observerNode = $("#plul")[0];
+                    var titleObserver = new MutationObserver(function(mutation){
+                        if(mutation[0].removedNodes.length && subsRunning){
+                            console.log("Observer by delete Node triggered");
+                            console.log("subs stopped");
+                            $("#subsplaybutton").css({display:"block"});
+                            $("#subsstopbutton").css({display:"none"});
+                            clearInterval(subsInterval);
+                            $("#subs").html("");
+                            subsRunning = false;
+                        }
+                    });
+                    titleObserver.observe(observerNode, { childList: true });           // childlist    - listening on adding or removing new nodes to main element
+                }
             });
             // Start button end
             
@@ -227,7 +229,7 @@
                 part2AddedTime = 0;
                 subsRunning = true;
                 $("#subsmove").text(subsMovement);
-                $("#subsstopbutton").css({display:"block"}).siblings().css({display:"none"});
+                $("#subsstopbutton").c ss({display:"block"}).siblings().css({display:"none"});
                 clearInterval(subsInterval);
                 nextPos = subsBase.indexOf(" --> ");                                        // Format:  01:07:32,053 --> 01:07:35,500
                 start = convertTime(subsBase.slice(nextPos - 12, nextPos));
