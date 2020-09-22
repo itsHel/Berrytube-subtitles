@@ -312,6 +312,10 @@
                     start = convertTime(subs.slice(nextPos - 12, nextPos));
                     end = convertTime(subs.slice(nextPos + 5, nextPos + 17));
                 }
+                console.log("begin()");
+                console.log("nextPos: " + nextPos);
+                console.log("nextPos start: " + start);
+                console.log("nextPos end: " + end);
             }
             
             function next(){
