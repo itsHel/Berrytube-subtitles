@@ -238,7 +238,7 @@
                 $("#subsmove").text(subsMovement);
                 $("#subsstopbutton").css({display:"block"}).siblings().css({display:"none"});
                 clearInterval(subsInterval);
-                nextPos = subsBase.indexOf(" --> ");                                        // Format:  01:07:32,053 --> 01:07:35,500
+                nextPos = subsBase.indexOf(" --> ");                                        
                 start = convertTime(subsBase.slice(nextPos - 12, nextPos));
                 end = convertTime(subsBase.slice(nextPos + 5, nextPos + 17));
                 // Add time if part 2
@@ -337,7 +337,7 @@
                 nextPaused = true;
             }
                    
-            function convertTime(clock){               
+            function convertTime(clock){                                // Format:  01:07:32,053 --> 01:07:35,500
                 clock = clock.replace(",", "");
                 let mSeconds = parseInt(clock.slice(6));
                 mSeconds += clock.slice(3, 5) *60000;
