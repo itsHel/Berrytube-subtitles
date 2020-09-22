@@ -41,7 +41,7 @@
             //$("#ytapiplayer").append("<div id=subs></div>");            // Needs to wait few seconds for load of vid
             $("#videowrap").append("<div id=subs></div>");            
             $("body").append(`
-                <div style='display:inline-block;z-index:99999;transition:all 0.5s ease;position:relative;/*background:rgba(231, 228, 228, 1);*/' id=subsmenuwrapper>
+                <div style='display:inline-block;z-index:99999999;transition:all 0.5s ease;position:relative;/*background:rgba(231, 228, 228, 1);*/' id=subsmenuwrapper>
                     <button class="subsbutton" style="float:left;height:26px;opacity:1;cursor:pointer;padding:1px 3px" id=subsStart><!--
                         --><div id=subsdisabledbutton style='cursor:not-allowed;display:none;'><img style="width:17px;padding:2px" src="https://img.icons8.com/ultraviolet/48/000000/cancel-2.png"/></div><!--
                         --><div id=subsplaybutton style='display:block;top:0'><img style="width:21px" src="https://img.icons8.com/fluent/48/000000/circled-play.png"/></div><!--
@@ -61,7 +61,7 @@
                     <div id=subserror style="font-size:16px;background:rgba(0,0,0,0.5);position:absolute;top:100%;padding:4px 4px;display:none;text-shadow: 1px 1px 3px black">Not found!</div>
                 </div>`);
             $("#subsmenuwrapper").css({position: "fixed", top:0, left:0});
-            $("#subs").css({"transform":"translateX(-50%)", "width":"100%", "text-shadow": "3px 3px 3px black", /*"width":"650px",*/ "height":"30px", "background":"transparent", "font-size":"28px", "position":"absolute", "z-index": "99999", "bottom":"14%", "left":"50%", "text-align":"center"});
+            $("#subs").css({"transform":"translateX(-50%)", "width":"100%", "text-shadow": "3px 3px 3px black", /*"width":"650px",*/ "height":"30px", "background":"transparent", "font-size":"28px", "position":"absolute", "z-index": "99999999", "bottom":"14%", "left":"50%", "text-align":"center"});
             $("#subsmenuwrapper *dd").css({"float":"left"});
             $("#videowrap").css({"position":"relative"});
 
