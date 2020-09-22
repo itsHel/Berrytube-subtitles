@@ -11,6 +11,7 @@
 // @match        http://btc.berrytube.tv:8000/*
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @grant        GM_addStyle
+// @grant        GM_log
 // ==/UserScript==
 
         // $(".active .title").text("1x01");
