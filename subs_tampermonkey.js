@@ -14,14 +14,12 @@
 // @grant        GM_log
 // ==/UserScript==
 
-        // $(".active .title").text("1x01");
+        // $(".active .title").text("HMx01");
 
         // TO TEST IN HTML must change PLAYER time using videoLength and background-size                 // Background-size version needs maltweaks to work
 
 
         // friendshipGames2             - NOT FINISHED
-
-        // upload
 
         // video id ="videowrap"
         // video id ="ytapiplayer"      - same but position relative
