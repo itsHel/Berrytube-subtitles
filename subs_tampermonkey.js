@@ -33,7 +33,7 @@
         //time = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", "")) *1000 + subsMovement + part2AddedTime;             // old time - using background size from maltweaks
         (function(){
 
-        let time = 0, videoLength = 0, part2AddedTime = 0, subsMovement = 0, pos = 0;
+        let time = 0, part2AddedTime = 0, subsMovement = 0, pos = 0;
         let subsBase, nextPos, start, end, subs, subsInterval;
         let subsRunning = false, nextPaused = true, menuHidden = false;
         const specials = ["HMx01", "forgotten-tc", "forgotten-fc", "LOEx01", "Friendship games - NOT finished"];
@@ -165,6 +165,7 @@
                         $.getJSON(url, function(result, status){
                             if(status != "success"){
                                 console.log("I just dont know what went wrong");
+                                GM_log("GM_log: I just dont know what went wrong");
                                 return;
                             }
                             startSubs(result.subs);
@@ -185,6 +186,7 @@
                             statusCode: {
                                 404: () => {
                                     console.log("404");
+                                    GM_log("GM_log: 404");
                                     $("#subsspinner").fadeOut(0);
                                     $("#subserror").fadeIn(500, function(){
                                         $(this).delay(2500).fadeOut(500);
@@ -192,7 +194,8 @@
                                     $("#subsplaybutton").css({display:"block"}).siblings().css({display:"none"});
                                 },
                                 429: () => {
-                                    console.log("Too many requests");
+                                    GM_log("GM_log: 429 Too many requests");
+                                    console.log("429 Too many requests");
                                     $("#subsspinner").fadeOut(0);
                                     $("#subserror").fadeIn(500, function(){
                                         $(this).delay(2500).fadeOut(500);
@@ -209,7 +212,7 @@
                     var observerNode = $("#plul")[0];
                     var titleObserver = new MutationObserver(function(mutation){
                         if(mutation[0].removedNodes.length && subsRunning){
-                            console.log("Observer by delete Node triggered");
+                            GM_log("GM_log: subs stopped");
                             console.log("subs stopped");
                             $("#subsplaybutton").css({display:"block"});
                             $("#subsstopbutton").css({display:"none"});
@@ -225,6 +228,7 @@
             
             function startSubs(loadedSubs){
                 console.log("subs loaded");
+                GM_log("GM_log: subs loaded");
                 $("#subsspinner").fadeOut();
                 subsBase = loadedSubs;
                 subsMovement = 0;
@@ -255,7 +259,7 @@
                         break;
                 }
                 
-                videoLength = convt($("li.active .time").text());
+                //videoLength = convt($("li.active .time").text());
                 
 
                 /*           -----------------------   MONKEY VERSION   -----------------------                 */
@@ -280,6 +284,7 @@
                             let subsOutput = subs.match(/-->.*\r*\n(.+\r*\n.*)\r*\n/)[1];
                             $("#subs").html(subsOutput.replace("\n", "<br>"));
                             console.log(subsOutput);
+                            GM_log(subsOutput);
                             nextPaused = false;
                         }
                     } else if(time > end && !nextPaused){
@@ -318,6 +323,11 @@
                 console.log("nextPos: " + nextPos);
                 console.log("nextPos start: " + Math.round(start/1000) + " seconds");
                 console.log("nextPos end: " + Math.round(end/1000) + " seconds");
+
+                GM_log("GM_log: begin()");
+                GM_log("GM_log: nextPos: " + nextPos);
+                GM_log("GM_log: nextPos start: " + Math.round(start/1000) + " seconds");
+                GM_log("GM_log: nextPos end: " + Math.round(end/1000) + " seconds");
             }
             
             function next(){
