@@ -41,7 +41,6 @@
         
         $(function(){
             // Init
-            //$("#ytapiplayer").append("<div id=subs></div>");            // Needs to wait few seconds for load of vid
             $("#videowrap").append("<div id=subs></div>");            
             $("body").append(`
                 <div style='display:inline-block;z-index:99999999;transition:all 0.5s ease;position:relative;/*background:rgba(231, 228, 228, 1);*/' id=subsmenuwrapper>
