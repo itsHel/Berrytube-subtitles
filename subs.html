@@ -66,11 +66,15 @@
         </ul>
         
         <div id=videowrap style="position:relative;width:70%;height:55%;border:1px solid red;"></div>
+        <button id=stop style="cursor:pointer">Stop</button>
     </body>
     
     <script>
         function GM_addStyle(){};
-        setInterval(() => {
+        $("#stop").on("click", () => {
+            clearInterval(backgroundSizeinterval);
+        });
+        let backgroundSizeinterval = setInterval(() => {
             let size = parseFloat($(".volatile.active").css("background-size").slice(0, -1));
             $(".volatile.active").css({"background-size": (size - 0.0833) + "%"});
             //console.log($(".volatile.active").css("background-size"));
@@ -103,7 +107,6 @@
 // ==/UserScript==
 
         // TO TEST IN HTML must change PLAYER time using videoLength and background-size                 // Background-size version needs maltweaks to work
-
 
         // friendshipGames2             - NOT FINISHED
 
@@ -364,7 +367,7 @@
                         if(nextPaused){
                             let subsOutput = subs.match(/-->.*\r*\n(.+\r*\n.*)\r*\n/)[1];
                             $("#subs").html(subsOutput.replace("\n", "<br>"));
-                            console.log(subsOutput);
+                            //console.log(subsOutput);
                             nextPaused = false;
                         }
                     } else if(time > end && !nextPaused){
@@ -401,8 +404,8 @@
                 }
                 console.log("begin()");
                 console.log("nextPos: " + nextPos);
-                console.log("nextPos start: " + start);
-                console.log("nextPos end: " + end);
+                console.log("nextPos start: " + Math.round(start/1000) + " seconds");
+                console.log("nextPos end: " + Math.round(end/1000) + " seconds");
             }
             
             function next(){
