@@ -135,12 +135,12 @@
                     subsRunning = false;
                     $("#subs").html("");
                 } else {                            // Start subs
-                    let epName = $(".active .title").text();
+                    let epName = $(".active .title").text().toLowerCase();
                     $("#subsspinner").fadeIn();
                     $("#subsdisabledbutton").css({display:"block"}).siblings().css({display:"none"});
                     $("#subs").html("");
                     // Special subs                      - Horse movie, forgotten friendship, legend of everfree, friendship games
-                    if(specials.filter(subs => subs.toLowerCase() == epName.replace(/2$/,"1").toLowerCase()).length){
+                    if(specials.filter(subs => subs.toLowerCase() == epName.replace(/2$/,"1")).length){
                         let url;
                         switch(epName){
                             //horse movie
