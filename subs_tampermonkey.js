@@ -314,8 +314,8 @@
                 }
                 console.log("begin()");
                 console.log("nextPos: " + nextPos);
-                console.log("nextPos start: " + start);
-                console.log("nextPos end: " + end);
+                console.log("nextPos start: " + Math.round(start/1000) + " seconds");
+                console.log("nextPos end: " + Math.round(end/1000) + " seconds");
             }
             
             function next(){
