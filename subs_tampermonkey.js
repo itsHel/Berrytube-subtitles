@@ -259,9 +259,7 @@
                         part2AddedTime = (34 * 60 + 9) *1000;
                         break;
                 }
-                
-                //videoLength = convt($("li.active .time").text());
-                
+                              
 
                 /*           -----------------------   MONKEY VERSION   -----------------------                 */
                 PLAYER.getTime(function(playerTime){
@@ -338,13 +336,7 @@
                 end = convertTime(subs.slice(nextPos + 5, nextPos + 17));
                 nextPaused = true;
             }
-            
-            function convt(clock){
-                if(clock.length == 5)
-                    return parseInt(clock.slice(3)) + clock.slice(0,2) *60;
-                else
-                    return parseInt(clock.slice(6)) + parseInt(clock.slice(3,5)) *60 + clock.slice(0,2) *3600;
-            }            
+                   
             function convertTime(clock){               
                 clock = clock.replace(",", "");
                 let mSeconds = parseInt(clock.slice(6));
