@@ -209,21 +209,6 @@
             // subtree      - on childs too
             //
             */
-            
-            // Observing node deleting  
-            var observerNode = $("#plul")[0];
-            var titleObserver = new MutationObserver(function(mutation){
-                if(mutation[0].removedNodes.length && subsRunning){
-                    console.log("Observer by delete Node triggered");
-                    console.log("subs stopped");
-                    $("#subsplaybutton").css({display:"block"});
-                    $("#subsstopbutton").css({display:"none"});
-                    clearInterval(subsInterval);
-                    $("#subs").html("");
-                    subsRunning = false;
-                }
-            });
-            titleObserver.observe(observerNode, { childList: true });           // childlist    - listening on adding or removing new nodes to main element
             // Init end
 
             // Start subs button
@@ -305,6 +290,21 @@
                         });
                     }
                 }
+                            
+                // Observing node deleting  
+                var observerNode = $("#plul")[0];
+                var titleObserver = new MutationObserver(function(mutation){
+                    if(mutation[0].removedNodes.length && subsRunning){
+                        console.log("Observer by delete Node triggered");
+                        console.log("subs stopped");
+                        $("#subsplaybutton").css({display:"block"});
+                        $("#subsstopbutton").css({display:"none"});
+                        clearInterval(subsInterval);
+                        $("#subs").html("");
+                        subsRunning = false;
+                    }
+                });
+                titleObserver.observe(observerNode, { childList: true });           // childlist    - listening on adding or removing new nodes to main element
             });
             // Start button end
             
