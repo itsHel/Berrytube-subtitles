@@ -229,7 +229,7 @@
                 part2AddedTime = 0;
                 subsRunning = true;
                 $("#subsmove").text(subsMovement);
-                $("#subsstopbutton").c ss({display:"block"}).siblings().css({display:"none"});
+                $("#subsstopbutton").css({display:"block"}).siblings().css({display:"none"});
                 clearInterval(subsInterval);
                 nextPos = subsBase.indexOf(" --> ");                                        // Format:  01:07:32,053 --> 01:07:35,500
                 start = convertTime(subsBase.slice(nextPos - 12, nextPos));
