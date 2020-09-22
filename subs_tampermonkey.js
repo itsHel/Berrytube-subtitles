@@ -13,6 +13,8 @@
 // @grant        GM_addStyle
 // ==/UserScript==
 
+        // $(".active .title").text("1x01");
+
         // TO TEST IN HTML must change PLAYER time using videoLength and background-size                 // Background-size version needs maltweaks to work
 
 
