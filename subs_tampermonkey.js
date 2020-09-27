@@ -211,6 +211,7 @@
                     var titleObserver = new MutationObserver(function(mutation){
                         if(mutation[0].removedNodes.length && subsRunning){
                             GM_log("GM_log: subs stopped");
+                                GM_log(mutation);
                             console.log("subs stopped");
                             $("#subsplaybutton").css({display:"block"});
                             $("#subsstopbutton").css({display:"none"});
@@ -277,6 +278,7 @@
                 subsInterval = setInterval(function(){
                     if(time > start && time < end){
                         if(nextPaused){
+                               console.log("before regex");
                             let subsOutput = subs.match(/-->.*\r*\n(.+\r*\n.*)\r*\n/)[1];
                             $("#subs").html(subsOutput.replace("\n", "<br>"));
                             console.log(subsOutput);
