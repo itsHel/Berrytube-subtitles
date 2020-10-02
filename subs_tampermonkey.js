@@ -256,12 +256,16 @@
                 //     return playerTime *1000 + subsMovement + part2AddedTime;
                 // });
                 /*           -----------------------   HTML VERSION END   -----------------------               */
-console.log("TIME: "+time);
+		    
+		console.log("Time before begin(): " +time);
                 begin();
                 // Main interval
                 subsInterval = setInterval(function(){
-                                                   console.log("subsinterval");
-console.log("time: "+ time + "  end: " + end+"  START:"+start);
+		    console.log("subsinterval");
+		    console.log("Time: " + time);
+		    console.log("End: " + end);
+		    console.log("Start: " +start);
+			
                     if(time > start && time < end){
                         if(nextPaused){
                                console.log("before regex");
