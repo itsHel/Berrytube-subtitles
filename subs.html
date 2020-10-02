@@ -62,7 +62,7 @@
             </li>
             <li style="color:black">second</li>
             <li style="color:black">third</li>
-            <li style="color:black">fourth</li>
+            <li class="test myclass" style="color:black">fourth</li>
         </ul>
         
         <div id=videowrap style="position:relative;width:70%;height:55%;border:1px solid red;"></div>
@@ -124,10 +124,16 @@
 
 
         let time = 0, videoLength = 0, part2AddedTime = 0, subsMovement = 0, pos = 0;
-        let subsBase, nextPos, start, end, subs, subsInterval;
+        let subsBase, nextPos, start, end, subs, subsInterval, epName;
         let subsRunning = false, nextPaused = true, menuHidden = false;
         const specials = ["HMx01", "forgotten-tc", "forgotten-fc", "LOEx01", "Friendship games - NOT finished"];
         
+        let oldTimings;
+        if(window.localStorage.subsTimings)
+            oldTimings = JSON.parse(window.localStorage.subsTimings);       
+        else 
+            oldTimings = {};
+
         $(function(){
             // Init
             //$("#ytapiplayer").append("<div id=subs></div>");            // Needs to wait few seconds for load of vid
@@ -226,7 +232,7 @@
                     subsRunning = false;
                     $("#subs").html("");
                 } else {                            // Start subs
-                    let epName = $(".active .title").text();
+                    epName = $(".active .title").text();
                     $("#subsspinner").fadeIn();
                     $("#subsdisabledbutton").css({display:"block"}).siblings().css({display:"none"});
                     $("#subs").html("");
@@ -294,20 +300,29 @@
                     }
                 }
                             
-                // Observing node deleting  
-                var observerNode = $("#plul")[0];
-                var titleObserver = new MutationObserver(function(mutation){
-                    if(mutation[0].removedNodes.length && subsRunning){
-                        console.log("Observer by delete Node triggered");
-                        console.log("subs stopped");
-                        $("#subsplaybutton").css({display:"block"});
-                        $("#subsstopbutton").css({display:"none"});
-                        clearInterval(subsInterval);
-                        $("#subs").html("");
-                        subsRunning = false;
-                    }
-                });
-                titleObserver.observe(observerNode, { childList: true });           // childlist    - listening on adding or removing new nodes to main element
+                // Observing node deleting
+                if (typeof observerNode === 'undefined'){
+                    var observerNode = $("#plul")[0];
+                    var titleObserver = new MutationObserver(function(mutation){
+                        if(mutation[0].removedNodes.length && subsRunning){
+                            console.log(mutation);
+                            if(mutation[0].removedNodes[0].className.match("active")){
+                                console.log("Observer by delete Node triggered");
+                                console.log("subs stopped");
+                                $("#subsplaybutton").css({display:"block"});
+                                $("#subsstopbutton").css({display:"none"});
+                                clearInterval(subsInterval);
+                                $("#subs").html("");
+                                subsRunning = false;
+                                if(subsMovement){
+                                    oldTimings[epName] = subsMovement;
+                                    window.localStorage.subsTimings = JSON.stringify(oldTimings);
+                                }
+                            }
+                        }
+                    });
+                    titleObserver.observe(observerNode, { childList: true });           // childlist    - listening on adding or removing new nodes to main element
+                }
             });
             // Start button end
             
@@ -315,10 +330,13 @@
                 console.log("subs loaded");
                 $("#subsspinner").fadeOut();
                 subsBase = loadedSubs;
-                subsMovement = 0;
+                if(oldTimings.hasOwnProperty(epName))
+                    subsMovement = oldTimings[epName];
+                else
+                    subsMovement = 0;
+                $("#subsmove").text(subsMovement);
                 part2AddedTime = 0;
                 subsRunning = true;
-                $("#subsmove").text(subsMovement);
                 $("#subsstopbutton").css({display:"block"}).siblings().css({display:"none"});
                 clearInterval(subsInterval);
                 nextPos = subsBase.indexOf(" --> ");                                        // Format:  01:07:32,053 --> 01:07:35,500
@@ -344,7 +362,6 @@
                 }
                 
                 videoLength = convt($("li.active .time").text());
-                
 
                 /*           -----------------------   MONKEY VERSION   -----------------------                 */
                 // PLAYER.getTime(function(playerTime){
@@ -377,19 +394,19 @@
                     }
                     
 
-                /*           -----------------------   MONKEY VERSION   -----------------------                 */
-                // PLAYER.getTime(function(playerTime){
-                //     time = playerTime *1000 + subsMovement + part2AddedTime;
-                // });
-                /*           -----------------------   MONKEY VERSION END   -----------------------             */
-                
+                    /*           -----------------------   MONKEY VERSION   -----------------------                 */
+                    // PLAYER.getTime(function(playerTime){
+                    //     time = playerTime *1000 + subsMovement + part2AddedTime;
+                    // });
+                    /*           -----------------------   MONKEY VERSION END   -----------------------             */
+                    
 
-                /*           -----------------------   HTML VERSION   -----------------------                   */
-                playerTime = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", ""));
-                time = PLAYER.getTime(function(playerTime){
-                    return playerTime *1000 + subsMovement + part2AddedTime;
-                });
-                /*           -----------------------   HTML VERSION END   -----------------------               */
+                    /*           -----------------------   HTML VERSION   -----------------------                   */
+                    playerTime = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", ""));
+                    time = PLAYER.getTime(function(playerTime){
+                        return playerTime *1000 + subsMovement + part2AddedTime;
+                    });
+                    /*           -----------------------   HTML VERSION END   -----------------------               */
                 }, 250);
             }
             
