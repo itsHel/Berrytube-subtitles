@@ -36,10 +36,10 @@
         let subsBase, nextPos, start, end, subs, subsInterval;
         let subsRunning = false, nextPaused = true, menuHidden = false;
         const specials = ["HMx01", "forgotten-tc", "forgotten-fc", "LOEx01", "Friendship games - NOT finished"];
-        
+
         $(function(){
             // Init
-            $("#videowrap").append("<div id=subs></div>");            
+            $("#videowrap").append("<div id=subs></div>");
             $("body").append(`
                 <div style='display:inline-block;z-index:99999999;transition:all 0.5s ease;position:relative;/*background:rgba(231, 228, 228, 1);*/' id=subsmenuwrapper>
                     <button class="subsbutton" style="float:left;height:26px;opacity:1;cursor:pointer;padding:1px 3px" id=subsStart><!--
@@ -69,7 +69,7 @@
             $("#subs").html("that is not dead which can eternal lie<br>and with strange aeons...");
             let moveMail = setInterval(() => {
                 if($("#mailDiv").length){
-                    $("#mailDiv").css({left: "205px"});  
+                    $("#mailDiv").css({left: "205px"});
                     clearInterval(moveMail);
                 }
             }, 1000);
@@ -100,27 +100,6 @@
                     menuHidden = true;
                 }
             });
-
-            /*
-            // Observing class change, unnecessary trigger on backgroundsize change?
-            var observerNode = $("#plul")[0];
-            var titleObserver = new MutationObserver(function(mutation){
-                if (mutation[0].attributeName == 'class' && subsRunning){
-                    console.log("Observer by classChange triggered");
-                    console.log("Subs stopped");
-                        $("#subsplaybutton").css({display:"block"});
-                        $("#subsstopbutton").css({display:"none"});
-                        clearInterval(subsInterval);
-                        $("#subs").html("");
-                        subsRunning = false;
-                }
-            });
-            titleObserver.observe(observerNode, { childList: false, attributes: true, characterData: false, subtree: true });       // attributes   - classchange, styles change and more
-            
-            // subtree      - on childs too
-            //
-            */
-           
             // Init end
 
             // Start subs button
@@ -144,19 +123,19 @@
                         let url;
                         switch(epName){
                             //horse movie
-                            case "hmx01":        
+                            case "hmx01":
                                 url = "https://api.jsonbin.io/b/5efaf2b70bab551d2b6936ad/1";
                                 break;
-                            //friendship games 
+                            //friendship games
                             case "fg": case "fg":                                           //*******************NOT finished********************************************************************************
                                 url = "https://api.jsonbin.io/b/5efb17ca0bab551d2b6945b1";
                                 break;
                             //forgotten friendship
-                            case "forgotten-tc": case "forgotten-fc":                              
+                            case "forgotten-tc": case "forgotten-fc":
                                 url = "https://api.jsonbin.io/b/5efb1940bb5fbb1d25616984";
                                 break;
                             //legends of everyfree
-                            case "loex01":                        
+                            case "loex01":
                                 url = "https://api.jsonbin.io/b/5efb1a4f7f16b71d48a88f22";
                                 break;
                         }
@@ -168,8 +147,8 @@
                             }
                             startSubs(result.subs);
                         });
-                    } else {  
-                    // Download subs from yayponies      - all eps + EQ1/2                    
+                    } else {
+                    // Download subs from yayponies      - all eps + EQ1/2
                         let temp, subsName;
                         if(epName.match(/RRx0[12]/i)){
                             epName = "EQG2";
@@ -205,26 +184,28 @@
                         });
                     }
                 }
-                if (typeof observerNode === 'undefined') {
-                    // Observing node deleting  
+                if(typeof observerNode === 'undefined'){
+                    // Observing node deleting
                     var observerNode = $("#plul")[0];
                     var titleObserver = new MutationObserver(function(mutation){
                         if(mutation[0].removedNodes.length && subsRunning){
-                            GM_log("GM_log: subs stopped");
-                                GM_log(mutation);
-                            console.log("subs stopped");
-                            $("#subsplaybutton").css({display:"block"});
-                            $("#subsstopbutton").css({display:"none"});
-                            clearInterval(subsInterval);
-                            $("#subs").html("");
-                            subsRunning = false;
+							if(mutation[0].removedNodes[0].className.match("active")){
+								GM_log("GM_log: subs stopped");
+									GM_log(mutation);
+								console.log("subs stopped");
+								$("#subsplaybutton").css({display:"block"});
+								$("#subsstopbutton").css({display:"none"});
+								clearInterval(subsInterval);
+								$("#subs").html("");
+								subsRunning = false;
+							}
                         }
                     });
                     titleObserver.observe(observerNode, { childList: true });           // childlist    - listening on adding or removing new nodes to main element
                 }
             });
             // Start button end
-            
+
             function startSubs(loadedSubs){
                 console.log("subs loaded");
                 GM_log("GM_log: subs loaded");
@@ -236,7 +217,7 @@
                 $("#subsmove").text(subsMovement);
                 $("#subsstopbutton").css({display:"block"}).siblings().css({display:"none"});
                 clearInterval(subsInterval);
-                nextPos = subsBase.indexOf(" --> ");                                        
+                nextPos = subsBase.indexOf(" --> ");
                 start = convertTime(subsBase.slice(nextPos - 12, nextPos));
                 end = convertTime(subsBase.slice(nextPos + 5, nextPos + 17));
                 // Add time if part 2
@@ -244,7 +225,7 @@
                     case "hmx02":
                         part2AddedTime = (49 * 60 + 57) *1000 + 11200;
                         break;
-                    case "eqgx02":                                                             
+                    case "eqgx02":
                         part2AddedTime = (37 * 60 + 22) *1000;
                         break;
                     case "rrx02":
@@ -253,18 +234,21 @@
                     case "friendshipGames2":                                                //*******************NOT finished********************************************************************************
                         part2AddedTime = 0;
                         break;
-                    case "loex02":                                               
+                    case "loex02":
                         part2AddedTime = (34 * 60 + 9) *1000;
                         break;
                 }
-                              
+
 
                 /*           -----------------------   MONKEY VERSION   -----------------------                 */
                 PLAYER.getTime(function(playerTime){
                     time = playerTime *1000 + subsMovement + part2AddedTime;
                 });
+                PLAYER.getTime(function(playerTime){
+                    time = playerTime *1000 + subsMovement + part2AddedTime;
+                });
                 /*           -----------------------   MONKEY VERSION END   -----------------------             */
-                
+
 
                 /*           -----------------------   HTML VERSION   -----------------------                   */
                 // playerTime = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", ""));
@@ -272,10 +256,12 @@
                 //     return playerTime *1000 + subsMovement + part2AddedTime;
                 // });
                 /*           -----------------------   HTML VERSION END   -----------------------               */
-                
+console.log("TIME: "+time);
                 begin();
                 // Main interval
                 subsInterval = setInterval(function(){
+                                                   console.log("subsinterval");
+console.log("time: "+ time + "  end: " + end+"  START:"+start);
                     if(time > start && time < end){
                         if(nextPaused){
                                console.log("before regex");
@@ -290,7 +276,7 @@
                     } else {
                         $("#subs").html("");
                     }
-                    
+
 
                     /*           -----------------------   MONKEY VERSION   -----------------------             */
                     PLAYER.getTime(function(playerTime){
@@ -307,7 +293,7 @@
                     /*           -----------------------   HTML VERSION END   -----------------------           */
                 }, 250);
             }
-            
+
             function begin(){
                 // Puts subs in position and removes everything before
                 subs = subsBase;
@@ -327,7 +313,7 @@
                 GM_log("GM_log: nextPos start: " + Math.round(start/1000) + " seconds");
                 GM_log("GM_log: nextPos end: " + Math.round(end/1000) + " seconds");
             }
-            
+
             function next(){
                 subs = subs.slice(subs.indexOf("-->") + 4);
                 nextPos = subs.indexOf(" --> ");
@@ -335,7 +321,7 @@
                 end = convertTime(subs.slice(nextPos + 5, nextPos + 17));
                 nextPaused = true;
             }
-                   
+
             function convertTime(clock){                                // Format:  01:07:32,053 --> 01:07:35,500
                 clock = clock.replace(",", "");
                 let mSeconds = parseInt(clock.slice(6));
@@ -373,7 +359,7 @@
             `);
 
 //  "https://api.jsonbin.io/b/5efaf2b70bab551d2b6936ad/1"       //Horse movie
-//  "https://api.jsonbin.io/b/5efb17ca0bab551d2b6945b1"         //friendship games  
+//  "https://api.jsonbin.io/b/5efb17ca0bab551d2b6945b1"         //friendship games
 //  "https://api.jsonbin.io/b/5efb1940bb5fbb1d25616984"         //forgotten friendship
 //  "https://api.jsonbin.io/b/5efb1a4f7f16b71d48a88f22"         //legends of everyfree
 
