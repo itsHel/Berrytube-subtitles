@@ -33,9 +33,15 @@
         (function(){
 
         let time = 0, part2AddedTime = 0, subsMovement = 0, pos = 0;
-        let subsBase, nextPos, start, end, subs, subsInterval;
+        let subsBase, nextPos, start, end, subs, subsInterval, epName;
         let subsRunning = false, nextPaused = true, menuHidden = false;
         const specials = ["HMx01", "forgotten-tc", "forgotten-fc", "LOEx01", "Friendship games - NOT finished"];
+
+        let oldTimings;
+        if(window.localStorage.subsTimings)
+            oldTimings = JSON.parse(window.localStorage.subsTimings);       
+        else 
+            oldTimings = {};
 
         $(function(){
             // Init
@@ -61,7 +67,7 @@
                     <div id=subserror style="font-size:16px;background:rgba(0,0,0,0.5);position:absolute;top:100%;padding:4px 4px;display:none;text-shadow: 1px 1px 3px black">Not found!</div>
                 </div>`);
             $("#subsmenuwrapper").css({position: "fixed", top:0, left:0});
-            $("#subs").css({"transform":"translateX(-50%)", "width":"100%", "text-shadow": "3px 3px 3px black", /*"width":"650px",*/ "height":"30px", "background":"transparent", "font-size":"28px", "position":"absolute", "z-index": "99999999", "bottom":"14%", "left":"50%", "text-align":"center"});
+            $("#subs").css({"transform":"translateX(-50%)", "width":"100%", "text-shadow": "3px 3px 3px black", "height":"30px", "background":"transparent", "font-size":"28px", "position":"absolute", "z-index": "99999999", "bottom":"14%", "left":"50%", "text-align":"center"});
             $("#subsmenuwrapper *dd").css({"float":"left"});
             $("#videowrap").css({"position":"relative"});
 
@@ -114,7 +120,7 @@
                     subsRunning = false;
                     $("#subs").html("");
                 } else {                            // Start subs
-                    let epName = $(".active .title").text().toLowerCase();
+                    epName = $(".active .title").text().toLowerCase();
                     $("#subsspinner").fadeIn();
                     $("#subsdisabledbutton").css({display:"block"}).siblings().css({display:"none"});
                     $("#subs").html("");
@@ -197,7 +203,11 @@
 								$("#subsstopbutton").css({display:"none"});
 								clearInterval(subsInterval);
 								$("#subs").html("");
-								subsRunning = false;
+                                subsRunning = false;
+                                if(subsMovement){
+                                    oldTimings[epName] = subsMovement;
+                                    window.localStorage.subsTimings = JSON.stringify(oldTimings);
+                                }
 							}
                         }
                     });
@@ -211,10 +221,13 @@
                 GM_log("GM_log: subs loaded");
                 $("#subsspinner").fadeOut();
                 subsBase = loadedSubs;
-                subsMovement = 0;
+                if(oldTimings.hasOwnProperty(epName))
+                    subsMovement = oldTimings[epName];
+                else
+                    subsMovement = 0;
+                $("#subsmove").text(subsMovement);
                 part2AddedTime = 0;
                 subsRunning = true;
-                $("#subsmove").text(subsMovement);
                 $("#subsstopbutton").css({display:"block"}).siblings().css({display:"none"});
                 clearInterval(subsInterval);
                 nextPos = subsBase.indexOf(" --> ");
@@ -256,16 +269,16 @@
                 //     return playerTime *1000 + subsMovement + part2AddedTime;
                 // });
                 /*           -----------------------   HTML VERSION END   -----------------------               */
-		    
-		console.log("Time before begin(): " +time);
+
+				console.log("Time before begin(): " +time);
                 begin();
                 // Main interval
                 subsInterval = setInterval(function(){
-		    console.log("subsinterval");
-		    console.log("Time: " + time);
-		    console.log("End: " + end);
-		    console.log("Start: " +start);
-			
+                console.log("subsinterval");
+				console.log("Time: " + time);
+				console.log("End: " + end);
+				console.log("Start: " +start);
+				
                     if(time > start && time < end){
                         if(nextPaused){
                                console.log("before regex");
