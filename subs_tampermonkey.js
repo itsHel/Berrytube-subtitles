@@ -32,7 +32,7 @@
         //time = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", "")) *1000 + subsMovement + part2AddedTime;             // old time - using background size from maltweaks
         (function(){
 
-        let time = 0, part2AddedTime = 0, subsMovement = 0, pos = 0;
+        let time = 0, part2AddedTime = 0, subsMovement = 0;
         let subsBase, nextPos, start, end, subs, subsInterval, epName;
         let subsRunning = false, nextPaused = true, menuHidden = false;
         const specials = ["HMx01", "forgotten-tc", "forgotten-fc", "LOEx01", "Friendship games - NOT finished"];
@@ -89,6 +89,7 @@
                 subsMovement -= 200;
                 $("#subsmove").text(subsMovement);
             });
+            // Hide mini-menu
             $("#subshide").on("click", () => {
                 if(menuHidden){
                     $("#subsmenuwrapper").css({"transform":"translateX(0)"});
@@ -120,7 +121,8 @@
                     subsRunning = false;
                     $("#subs").html("");
                 } else {                            // Start subs
-                    epName = $(".active .title").text().toLowerCase();
+                    //epName = $(".active .title").text().toLowerCase();        // ************************************** Test ************************************
+                    epName = "1x01";
                     $("#subsspinner").fadeIn();
                     $("#subsdisabledbutton").css({display:"block"}).siblings().css({display:"none"});
                     $("#subs").html("");
@@ -252,14 +254,15 @@
                         break;
                 }
 
-
                 /*           -----------------------   MONKEY VERSION   -----------------------                 */
+
                 PLAYER.getTime(function(playerTime){
                     time = playerTime *1000 + subsMovement + part2AddedTime;
                 });
-                PLAYER.getTime(function(playerTime){
-                    time = playerTime *1000 + subsMovement + part2AddedTime;
-                });
+                
+                // PLAYER.getTime(function(playerTime){
+                //     time = playerTime *1000 + subsMovement + part2AddedTime;
+                // });
                 /*           -----------------------   MONKEY VERSION END   -----------------------             */
 
 
@@ -270,18 +273,19 @@
                 // });
                 /*           -----------------------   HTML VERSION END   -----------------------               */
 
-				console.log("Time before begin(): " +time);
+                console.log("Time before begin(): " + time);
+                
                 begin();
                 // Main interval
                 subsInterval = setInterval(function(){
-                console.log("subsinterval");
-				console.log("Time: " + time);
-				console.log("End: " + end);
-				console.log("Start: " +start);
+                    console.log("subsinterval");
+                    console.log("Time: " + time);
+                    console.log("Start: " + start);
+                    console.log("End: " + end);
 				
                     if(time > start && time < end){
                         if(nextPaused){
-                               console.log("before regex");
+                            //console.log("before regex");
                             let subsOutput = subs.match(/-->.*\r*\n(.+\r*\n.*)\r*\n/)[1];
                             $("#subs").html(subsOutput.replace("\n", "<br>"));
                             console.log(subsOutput);
@@ -290,10 +294,12 @@
                         }
                     } else if(time > end && !nextPaused){
                         next();
+                    } else if(time > end){
+                        // Reset
+                        begin();
                     } else {
                         $("#subs").html("");
                     }
-
 
                     /*           -----------------------   MONKEY VERSION   -----------------------             */
                     PLAYER.getTime(function(playerTime){
@@ -315,31 +321,32 @@
                 // Puts subs in position and removes everything before
                 subs = subsBase;
                 while(end < time){
-                    subs = subs.slice(subsBase.indexOf("-->") + 4);
-                    nextPos = subs.indexOf(" --> ");
-                    start = convertTime(subs.slice(nextPos - 12, nextPos));
-                    end = convertTime(subs.slice(nextPos + 5, nextPos + 17));
+                    // subs = subs.slice(subsBase.indexOf("-->") + 4);
+                    // nextPos = subs.indexOf(" --> ");
+                    // start = convertTime(subs.slice(nextPos - 12, nextPos));
+                    // end = convertTime(subs.slice(nextPos + 5, nextPos + 17));
+                    next(false);
                 }
                 console.log("begin()");
-                console.log("nextPos: " + nextPos);
+                //console.log("nextPos: " + nextPos);
                 console.log("nextPos start: " + Math.round(start/1000) + " seconds");
                 console.log("nextPos end: " + Math.round(end/1000) + " seconds");
 
                 GM_log("GM_log: begin()");
-                GM_log("GM_log: nextPos: " + nextPos);
+                //GM_log("GM_log: nextPos: " + nextPos);
                 GM_log("GM_log: nextPos start: " + Math.round(start/1000) + " seconds");
                 GM_log("GM_log: nextPos end: " + Math.round(end/1000) + " seconds");
             }
 
-            function next(){
+            function next(pause = true){                                                // Format:  01:07:32,053 --> 01:07:35,500
                 subs = subs.slice(subs.indexOf("-->") + 4);
                 nextPos = subs.indexOf(" --> ");
                 start = convertTime(subs.slice(nextPos - 12, nextPos));
                 end = convertTime(subs.slice(nextPos + 5, nextPos + 17));
-                nextPaused = true;
+                nextPaused = pause;
             }
 
-            function convertTime(clock){                                // Format:  01:07:32,053 --> 01:07:35,500
+            function convertTime(clock){                                    // Format:  01:07:32,053
                 clock = clock.replace(",", "");
                 let mSeconds = parseInt(clock.slice(6));
                 mSeconds += clock.slice(3, 5) *60000;
