@@ -44,6 +44,16 @@
             oldTimings = {};
 
         $(function(){
+            // Test *******************************************************************
+            $(document).on("keydown", function(e){
+                if(e.keyCode == 27){
+                    PLAYER.getTime(function(playerTime){
+                        time = playerTime *1000;
+                        console.log(time);
+                    });
+                }
+            });
+
             // Init
             $("#videowrap").append("<div id=subs></div>");
             $("body").append(`
@@ -255,14 +265,11 @@
                 }
 
                 /*           -----------------------   MONKEY VERSION   -----------------------                 */
-
                 PLAYER.getTime(function(playerTime){
                     time = playerTime *1000 + subsMovement + part2AddedTime;
+                    GM_log("GM_log - time inside function: " + time);
                 });
-                
-                // PLAYER.getTime(function(playerTime){
-                //     time = playerTime *1000 + subsMovement + part2AddedTime;
-                // });
+                GM_log("GM_log - time after function: " + time);
                 /*           -----------------------   MONKEY VERSION END   -----------------------             */
 
 
@@ -285,7 +292,6 @@
 				
                     if(time > start && time < end){
                         if(nextPaused){
-                            //console.log("before regex");
                             let subsOutput = subs.match(/-->.*\r*\n(.+\r*\n.*)\r*\n/)[1];
                             $("#subs").html(subsOutput.replace("\n", "<br>"));
                             console.log(subsOutput);
@@ -304,7 +310,9 @@
                     /*           -----------------------   MONKEY VERSION   -----------------------             */
                     PLAYER.getTime(function(playerTime){
                         time = playerTime *1000 + subsMovement + part2AddedTime;
+                        GM_log("GM_log - time inside function: " + time);
                     });
+                    GM_log("GM_log - time after function: " + time);
                     /*           -----------------------   MONKEY VERSION END   -----------------------         */
 
 
