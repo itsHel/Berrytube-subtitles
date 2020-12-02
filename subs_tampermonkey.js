@@ -74,7 +74,7 @@
                     --><button class="subsbutton" style="float:left;height:26px;cursor:pointer;padding:3px 2px 2px 2px;" id=subsplus><img style="width:12px;" src="${icons.plus}"/></button><!--
                     --><button class="subsbutton" style="float:left;height:26px;cursor:pointer;padding:3px 2px 2px 2px;" id=subsminus><img style="width:12px;" src="${icons.minus}"/></button><!--
                     --><div id=subsmove style='float:left;color:white;display:inline-block;padding:3px 5px 0px 5px;text-shadow: 2px 2px 3px black;background:rgba(0, 0, 0, 1);height:26px;box-sizing:border-box'>0</div><!--
-                    --><label class="subsbutton" for="subsfile" id=subsupload><img style="width:18px;padding-top:4px" id=iconupload title="upload subs (.srt)" src="${icons.upload}"><img style="width:18px;padding-top:3px;display:none;" id=iconremoveupload title="Remove subs" src="${icons.delete}"></label><!--
+                    --><label class="subsbutton" for="subsfile" id=subsupload><img style="width:18px;" id=iconupload title="upload subs (.srt)" src="${icons.upload}"><img style="width:18px;padding-top:3px;display:none;" id=iconremoveupload title="Remove subs" src="${icons.delete}"></label><!--
                     --><input type=file accept=".srt" id=subsfile><!--
                     --><button class="subsbutton" id=subshide><img style="width:12px;" src="${icons.arrowLeft}"/></button>
                     <div id=subsspinner style="padding:2px 0px 0 2px;display:none;float:left;">
