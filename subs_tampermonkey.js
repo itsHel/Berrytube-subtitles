@@ -51,6 +51,8 @@
             oldTimings = JSON.parse(window.localStorage.subsTimings);
         else
             oldTimings = {};
+		
+	console.log("OLD - timings: " + oldTimings);
 
         $(function(){
             // Test *******************************************************************
