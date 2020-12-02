@@ -16,9 +16,6 @@
 
         // $(".active .title").text("HMx01");
 
-        // TO TEST IN HTML must change PLAYER time using videoLength and background-size                 // Background-size version needs maltweaks to work
-
-
         // friendshipGames2             - NOT FINISHED
 
         // video id ="videowrap"
@@ -278,23 +275,9 @@
                         break;
                 }
 
-                /*           -----------------------   MONKEY VERSION   -----------------------                 */
                 PLAYER.getTime(function(playerTime){
                     time = playerTime *1000 + subsMovement + part2AddedTime;
-//                    GM_log("GM_log - time inside function: " + time);
                 });
-//                GM_log("GM_log - time after function: " + time);
-                /*           -----------------------   MONKEY VERSION END   -----------------------             */
-
-
-                /*           -----------------------   HTML VERSION   -----------------------                   */
-                // playerTime = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", ""));
-                // time = PLAYER.getTime(function(playerTime){
-                //     return playerTime *1000 + subsMovement + part2AddedTime;
-                // });
-                /*           -----------------------   HTML VERSION END   -----------------------               */
-
-//                console.log("Time before begin(): " + time);
 
                 begin();
                 // Main interval
@@ -321,21 +304,11 @@
                         $("#subs").html("");
                     }
 
-                    /*           -----------------------   MONKEY VERSION   -----------------------             */
                     PLAYER.getTime(function(playerTime){
                         time = playerTime *1000 + subsMovement + part2AddedTime;
                         GM_log("GM_log - time inside function: " + time);
                     });
                     GM_log("GM_log - time after function: " + time);
-                    /*           -----------------------   MONKEY VERSION END   -----------------------         */
-
-
-                    /*           -----------------------   HTML VERSION   -----------------------               */
-                    // playerTime = videoLength/100 *(100 - $("li.active").css("background-size").replace("%", ""));
-                    // time = PLAYER.getTime(function(playerTime){
-                    //    return playerTime *1000 + subsMovement + part2AddedTime;
-                    // });
-                    /*           -----------------------   HTML VERSION END   -----------------------           */
                 }, 100);
             }
 
@@ -368,7 +341,7 @@
                 nextPaused = pause;
             }
 
-            function convertTime(clock){                                    // Format:  01:07:32,053
+            function convertTime(clock){                                    		// Format:  01:07:32,053
                 clock = clock.replace(",", "");
                 let mSeconds = parseInt(clock.slice(6));
                 mSeconds += clock.slice(3, 5) *60000;
