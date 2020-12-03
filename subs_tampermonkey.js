@@ -76,7 +76,7 @@
                         --><label class="subsbutton" for="subsfile" id=subsupload><img style="width:18px;" id=iconupload title="upload subs (.srt)" src="${icons.upload}"><img style="width:18px;padding-top:3px;display:none;" id=iconremoveupload title="Remove subs" src="${icons.delete}"></label><!--
                         --><input type=file accept=".srt" id=subsfile><!--
                         --><button class="subsbutton" id=subshide><img style="width:12px;" src="${icons.arrowLeft}"/></button>
-                        <div id=subsspinner style="padding:2px 0px 0 2px;display:none;float:left;">
+                        <div id=subsspinner>
                             <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="21px" height="21px" viewBox="0 0 50 50" style="enable-background:new 00 00 50 50;" xml:space="preserve">
                                 <path style="fill:#118edc;" fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
                                     <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"/>
@@ -472,6 +472,11 @@
                         background:rgba(0, 0, 0, 1);
                         height:26px;
                         box-sizing:border-box'
+                    }
+                    #subsspinner{
+                        padding:2px 0px 0 2px;
+                        display:none;
+                        float:left;
                     }
                 `);
     
