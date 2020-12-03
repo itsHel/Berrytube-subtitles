@@ -465,14 +465,16 @@
                         padding:3px 2px 2px 2px;
                     }
                     #subsmove{
-                        float:left;
                         color:white;
-                        display:inline-block;
-                        padding:3px 5px 0px 5px;
+                        float:left;
+                        padding:0px 5px 0px 5px;
                         text-shadow: 2px 2px 3px black;
                         background:rgba(0, 0, 0, 1);
                         height:26px;
                         box-sizing:border-box;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
                     }
                     #subsspinner{
                         padding:2px 0px 0 2px;
