@@ -472,7 +472,7 @@
                         text-shadow: 2px 2px 3px black;
                         background:rgba(0, 0, 0, 1);
                         height:26px;
-                        box-sizing:border-box'
+                        box-sizing:border-box;
                     }
                     #subsspinner{
                         padding:2px 0px 0 2px;
