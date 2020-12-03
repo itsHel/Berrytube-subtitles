@@ -14,7 +14,9 @@
 // @grant        GM_log
 // ==/UserScript==
 
-        $(".active .title").text("HMx01");
+        // Test only
+        // $("body").append("<div class=active><div class=title></div></div>");
+        // $(".active .title").text("HMx01");
 
         // friendshipGames2             - NOT FINISHED
 
@@ -39,7 +41,8 @@
                 upload: "https://img.icons8.com/officel/16/000000/upload-2.png",
                 arrowLeft: "https://img.icons8.com/offices/30/000000/back.png",
                 plus: "https://img.icons8.com/offices/30/000000/plus-math.png",
-                minus: "https://img.icons8.com/offices/30/000000/minus-math.png"
+                minus: "https://img.icons8.com/offices/30/000000/minus-math.png",
+                cancel: "https://img.icons8.com/ultraviolet/48/000000/cancel-2.png"
             }
     
             let oldTimings;
@@ -48,8 +51,6 @@
             else
                 oldTimings = {};
             
-        console.log("OLD - timings: " + oldTimings);
-    
             $(function(){
                 // Test *******************************************************************
                 $(document).on("keydown", function(e){
@@ -66,7 +67,7 @@
                 $("body").append(`
                     <div id=subsmenuwrapper>
                         <button class="subsbutton" id=subsstart><!--
-                            --><div id=subsdisabledbutton><img style="width:17px;padding:2px" src="https://img.icons8.com/ultraviolet/48/000000/cancel-2.png"/></div><!--
+                            --><div id=subsdisabledbutton><img style="width:17px;padding:2px" src="${icons.cancel}"/></div><!--
                             --><div id=subsplaybutton style='display:block;top:0'><img style="width:21px" src="${icons.play}"/></div><!--
                             --><div id=subsstopbutton style='display:none;top:0'><img style="width:21px" src="${icons.stop}"/></div><!--
                         --></button><!--
