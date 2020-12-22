@@ -19,4 +19,4 @@ Adds small UI (top-left) that lets you to auto-download and play subtitles for i
 ### Cloud
 - _Lets you to upload own subtitles_
 ### Left arrow
-- _Hide UI_
+> _Hide UI_
