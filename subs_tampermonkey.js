@@ -8,6 +8,7 @@
 // @match        https://berrytube.tv/*
 // @match        https://www.berrytube.tv/*
 // @match        https://berrytube.berrypun.ch:8445/*
+// @match        http://btc.berrytube.tv:8000/*
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @grant        GM_addStyle
 // @grant        GM_log
@@ -251,6 +252,7 @@
                     });
     
                     begin();
+                    
                     // Main interval
                     subsInterval = setInterval(function(){
                         if(time > start && time < end){
@@ -270,9 +272,7 @@
     
                         PLAYER.getTime(function(playerTime){
                             time = playerTime *1000 + subsMovement + part2AddedTime;
-                            GM_log("GM_log - time inside function: " + time);
                         });
-                        GM_log("GM_log - time after function: " + time);
                     }, 100);
                 }
     
