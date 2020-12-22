@@ -9,14 +9,14 @@ Adds small UI (top-left) that lets you to auto-download and play subtitles for i
 
 ## UI buttons from left to right:
 ### Play/Stop
-- _Download & play subs/Stop_
+> Download & play subs/Stop
 ### + sign
-- _+200 ms on timing_
+> +200 ms on timing
 ### - sign
-- _-200 ms on timing_
+> -200 ms on timing
 ### 0 sign
-- _Shows actual timing difference_
+> Shows actual timing difference
 ### Cloud
-- _Lets you to upload own subtitles_
+> Lets you to upload own subtitles
 ### Left arrow
-> _Hide UI_
+> Hide UI
