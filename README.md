@@ -9,14 +9,14 @@
 
 ## UI buttons from left to right:
 ### Play/Stop
- Download & play subs/Stop
-### +
- + 200 ms on timing
-### -
- - 200 ms on timing
-### 0
- Shows actual timing difference
+- Download & play subs/Stop
+### + sign
+- +200 ms on timing
+### - sign
+- -200 ms on timing
+### 0 sign
+- Shows actual timing difference
 ### Cloud
- Lets you to upload own subtitles 
+- Lets you to upload own subtitles 
 ### Left arrow
- Hide UI
+- Hide UI
