@@ -11,12 +11,12 @@
 ### Play/Stop
 - _Download & play subs/Stop_
 ### + sign
-- +200 ms on timing
+- _+200 ms on timing_
 ### - sign
-- -200 ms on timing
+- _-200 ms on timing_
 ### 0 sign
-- Shows actual timing difference
+- _Shows actual timing difference_
 ### Cloud
-- Lets you to upload own subtitles 
+- _Lets you to upload own subtitles_
 ### Left arrow
-- Hide UI
+- _Hide UI_
