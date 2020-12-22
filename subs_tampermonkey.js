@@ -14,22 +14,9 @@
 // @grant        GM_log
 // ==/UserScript==
 
-        // Test only
-        // $("body").append("<div class=active><div class=title></div></div>");
-        // $(".active .title").text("HMx01");
-
         // friendshipGames2             - NOT FINISHED
 
-        // video id ="videowrap"
-        // video id ="ytapiplayer"      - same but position relative
-
-        // $(".volatile.active .title")             - title of playing now
-        // $(".volatile.active .time")              - videoLength of playing now
-
-        // https://jsonbin.io/          - uploaded by me subs                                   // login with Github
-
         (function(){
-
             let time = 0, part2AddedTime = 0, subsMovement = 0;
             let subsBase, nextPos, start, end, subs, subsInterval, epName;
             let subsRunning = false, nextPaused = true, menuHidden = false;
@@ -52,16 +39,6 @@
                 oldTimings = {};
             
             $(function(){
-                // Test *******************************************************************
-                $(document).on("keydown", function(e){
-                    if(e.keyCode == 27){
-                        PLAYER.getTime(function(playerTime){
-                            time = playerTime *1000;
-                            console.log(time);
-                        });
-                    }
-                });
-    
                 // Init
                 $("#videowrap").append("<div id=subs></div>");
                 $("body").append(`
@@ -161,7 +138,7 @@
                                     url = "https://api.jsonbin.io/b/5efaf2b70bab551d2b6936ad/1";
                                     break;
                                 //friendship games
-                                case "fg": case "fg":                                           //*******************NOT finished********************************************************************************
+                                case "fg": case "fg":                                       //*******************NOT finished********************************************************************************
                                     url = "https://api.jsonbin.io/b/5efb17ca0bab551d2b6945b1";
                                     break;
                                 //forgotten friendship
@@ -183,7 +160,6 @@
                             });
                         } else {
                         // Download subs from yayponies      - all eps + EQ1/2
-                            let temp, subsName;
                             if(epName.match(/RRx0[12]/i)){
                                 epName = "EQG2";
                             } else if(epName.match(/EQGx0[12]/i)){
@@ -263,7 +239,7 @@
                         case "rrx02":
                             part2AddedTime = (35 * 60 + 35) *1000;
                             break;
-                        case "friendshipGames2":                                                //*******************NOT finished********************************************************************************
+                        case "friendshipGames2":                   //*******************NOT finished********************************************************************************
                             part2AddedTime = 0;
                             break;
                         case "loex02":
@@ -278,17 +254,10 @@
                     begin();
                     // Main interval
                     subsInterval = setInterval(function(){
-    //                    console.log("subsinterval");
-    //                    console.log("Time: " + time);
-    //                    console.log("Start: " + start);
-    //                    console.log("End: " + end);
-    
                         if(time > start && time < end){
                             if(nextPaused){
                                 let subsOutput = subs.match(/-->.*\r*\n(.+\r*\n.*)\r*\n/)[1];
                                 $("#subs").html(subsOutput.replace("\n", "<br>"));
-    //                            console.log(subsOutput);
-    //                            GM_log(subsOutput);
                                 nextPaused = false;
                             }
                         } else if(time > end && !nextPaused){
@@ -312,24 +281,11 @@
                     // Puts subs in position and removes everything before
                     subs = subsBase;
                     while(end < time){
-                        // subs = subs.slice(subsBase.indexOf("-->") + 4);
-                        // nextPos = subs.indexOf(" --> ");
-                        // start = convertTime(subs.slice(nextPos - 12, nextPos));
-                        // end = convertTime(subs.slice(nextPos + 5, nextPos + 17));
                         next(false);
                     }
-    //                console.log("begin()");
-                    //console.log("nextPos: " + nextPos);
-    //                console.log("nextPos start: " + Math.round(start/1000) + " seconds");
-    //                console.log("nextPos end: " + Math.round(end/1000) + " seconds");
-    
-    //                GM_log("GM_log: begin()");
-                    //GM_log("GM_log: nextPos: " + nextPos);
-    //                GM_log("GM_log: nextPos start: " + Math.round(start/1000) + " seconds");
-    //                GM_log("GM_log: nextPos end: " + Math.round(end/1000) + " seconds");
                 }
     
-                function next(pause = true){                                                // Format:  01:07:32,053 --> 01:07:35,500
+                function next(pause = true){                                            // Format:  01:07:32,053 --> 01:07:35,500
                     subs = subs.slice(subs.indexOf("-->") + 4);
                     nextPos = subs.indexOf(" --> ");
                     start = convertTime(subs.slice(nextPos - 12, nextPos));
@@ -376,6 +332,14 @@
         const sunsetsBackstagePass = ``;
         const rainbowRoadtrip = ``;
         //
+
+        // video id ="videowrap"
+        // video id ="ytapiplayer"      - same but position relative
+
+        // $(".volatile.active .title")             - title of playing now
+        // $(".volatile.active .time")              - videoLength of playing now
+
+        // https://jsonbin.io/          - uploaded by me subs                                   // login with Github
     
         GM_addStyle(`
                     .subsbutton{
