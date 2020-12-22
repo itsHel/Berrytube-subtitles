@@ -8,7 +8,6 @@
 // @match        https://berrytube.tv/*
 // @match        https://www.berrytube.tv/*
 // @match        https://berrytube.berrypun.ch:8445/*
-// @match        http://btc.berrytube.tv:8000/*
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @grant        GM_addStyle
 // @grant        GM_log
