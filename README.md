@@ -9,7 +9,7 @@
 
 ## UI buttons from left to right:
 ### Play/Stop
-- Download & play subs/Stop
+- _Download & play subs/Stop_
 ### + sign
 - +200 ms on timing
 ### - sign
