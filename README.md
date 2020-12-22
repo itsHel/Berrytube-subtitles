@@ -8,4 +8,15 @@
 - Upload your own subtitles (only .srt) for movies
 
 ## UI buttons from left to right:
-- ### dwads
+### Play/Stop
+##### Download & play subs/Stop
+### +
+##### + 200 ms on timing
+### -
+##### - 200 ms on timing
+### 0
+##### Shows actual timing difference
+### Cloud
+##### Lets you to upload own subtitles 
+### Left arrow
+##### Hide UI
