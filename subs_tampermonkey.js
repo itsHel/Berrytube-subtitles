@@ -14,13 +14,25 @@
 // @grant        GM_log
 // ==/UserScript==
 
+        // Test only
+        // $("body").prepend("<div id=substest class=active><div class=title></div></div>");
+        $(".active .title").text("HMx02");
+
         // friendshipGames2             - NOT FINISHED
+
+        // video id ="videowrap"
+        // video id ="ytapiplayer"      - same but position relative
+
+        // $(".volatile.active .title")             - title of playing now
+        // $(".volatile.active .time")              - videoLength of playing now
+
+        // https://jsonbin.io/          - uploaded by me subs                                   // login with Github
 
         (function(){
             let time = 0, part2AddedTime = 0, subsMovement = 0;
             let subsBase, nextPos, start, end, subs, subsInterval, epName;
             let subsRunning = false, nextPaused = true, menuHidden = false;
-            const specials = ["HMx01", "forgotten-tc", "forgotten-fc", "LOEx01", "Friendship games - NOT finished"];
+            const specials = ["HMx01", "forgotten-tc", "forgotten-fc", "LOEx01", "fgx01"];
             const icons = {
                 delete: "https://img.icons8.com/ultraviolet/80/000000/delete-sign.png",
                 play: "https://img.icons8.com/fluent/48/000000/circled-play.png",
@@ -31,13 +43,13 @@
                 minus: "https://img.icons8.com/offices/30/000000/minus-math.png",
                 cancel: "https://img.icons8.com/ultraviolet/48/000000/cancel-2.png"
             }
-    
+
             let oldTimings;
             if(window.localStorage.subsTimings)
                 oldTimings = JSON.parse(window.localStorage.subsTimings);
             else
                 oldTimings = {};
-            
+
             $(function(){
                 // Init
                 $("#videowrap").append("<div id=subs></div>");
@@ -63,7 +75,7 @@
                         </div>
                         <div id=subserror>Not found!</div>
                     </div>`);
-    
+
                 $("#chatbuffer").css({fontSize:"125%"});
                 let moveMail = setInterval(() => {
                     if($("#mailDiv").length){
@@ -95,7 +107,7 @@
                         return false;
                     }
                 });
-    
+
                 // Hide mini-menu
                 $("#subshide").on("click", () => {
                     if(menuHidden){
@@ -115,7 +127,7 @@
                     }
                 });
                 // Init end
-    
+
                 // Start subs button
                 $("#subsstart").on("click", () => {
                     if($("#subsdisabledbutton").css("display") == "block"){
@@ -130,15 +142,16 @@
                         $("#subsdisabledbutton").css({display:"block"}).siblings().css({display:"none"});
                         $("#subs").html("");
                         // Special subs                      - Horse movie, forgotten friendship, legend of everfree, friendship games
+                        console.log(epName);
                         if(specials.filter(subs => subs.toLowerCase() == epName.replace(/2$/,"1")).length){
                             let url;
-                            switch(epName){
+                            switch(epName.replace(/2$/,"1")){
                                 //horse movie
                                 case "hmx01":
                                     url = "https://api.jsonbin.io/b/5efaf2b70bab551d2b6936ad/1";
                                     break;
                                 //friendship games
-                                case "fg": case "fg":                                       //*******************NOT finished********************************************************************************
+                                case "fgx01":
                                     url = "https://api.jsonbin.io/b/5efb17ca0bab551d2b6945b1";
                                     break;
                                 //forgotten friendship
@@ -160,6 +173,7 @@
                             });
                         } else {
                         // Download subs from yayponies      - all eps + EQ1/2
+                            let temp, subsName;
                             if(epName.match(/RRx0[12]/i)){
                                 epName = "EQG2";
                             } else if(epName.match(/EQGx0[12]/i)){
@@ -210,9 +224,8 @@
                     }
                 });
                 // Start button end
-    
+
                 function startSubs(loadedSubs){
-                    console.log("subs loaded");
                     GM_log("GM_log: subs loaded");
                     $("#subsspinner").fadeOut();
                     subsBase = loadedSubs;
@@ -239,20 +252,19 @@
                         case "rrx02":
                             part2AddedTime = (35 * 60 + 35) *1000;
                             break;
-                        case "friendshipGames2":                   //*******************NOT finished********************************************************************************
-                            part2AddedTime = 0;
+                        case "fgx02":
+                            part2AddedTime = (36 * 60 + 53) *1000;
                             break;
                         case "loex02":
                             part2AddedTime = (34 * 60 + 9) *1000;
                             break;
                     }
-    
+
                     PLAYER.getTime(function(playerTime){
                         time = playerTime *1000 + subsMovement + part2AddedTime;
                     });
-    
+
                     begin();
-                    
                     // Main interval
                     subsInterval = setInterval(function(){
                         if(time > start && time < end){
@@ -269,29 +281,35 @@
                         } else {
                             $("#subs").html("");
                         }
-    
+
                         PLAYER.getTime(function(playerTime){
                             time = playerTime *1000 + subsMovement + part2AddedTime;
+                            GM_log("GM_log - time inside function: " + time);
                         });
+                        GM_log("GM_log - time after function: " + time);
                     }, 100);
                 }
-    
+
                 function begin(){
                     // Puts subs in position and removes everything before
                     subs = subsBase;
                     while(end < time){
+                        // subs = subs.slice(subsBase.indexOf("-->") + 4);
+                        // nextPos = subs.indexOf(" --> ");
+                        // start = convertTime(subs.slice(nextPos - 12, nextPos));
+                        // end = convertTime(subs.slice(nextPos + 5, nextPos + 17));
                         next(false);
                     }
                 }
-    
-                function next(pause = true){                                            // Format:  01:07:32,053 --> 01:07:35,500
+
+                function next(pause = true){                                                // Format:  01:07:32,053 --> 01:07:35,500
                     subs = subs.slice(subs.indexOf("-->") + 4);
                     nextPos = subs.indexOf(" --> ");
                     start = convertTime(subs.slice(nextPos - 12, nextPos));
                     end = convertTime(subs.slice(nextPos + 5, nextPos + 17));
                     nextPaused = pause;
                 }
-    
+
                 function convertTime(clock){                                    		// Format:  01:07:32,053
                     clock = clock.replace(",", "");
                     let mSeconds = parseInt(clock.slice(6));
@@ -312,7 +330,7 @@
                         window.localStorage.subsTimings = JSON.stringify(oldTimings);
                     }
                 }
-    
+
                 function readUploadedSubs(id){
                     const file = document.getElementById(id).files[0];
                     const reader = new FileReader();
@@ -323,7 +341,7 @@
                     reader.readAsText(file);
                 }
             });
-    
+
         // Doesnt exist
         const holidaysUnwrapped = ``;
         const rollercoasterOfFriendship = ``;
@@ -332,14 +350,6 @@
         const rainbowRoadtrip = ``;
         //
 
-        // video id ="videowrap"
-        // video id ="ytapiplayer"      - same but position relative
-
-        // $(".volatile.active .title")             - title of playing now
-        // $(".volatile.active .time")              - videoLength of playing now
-
-        // https://jsonbin.io/          - uploaded by me subs                                   // login with Github
-    
         GM_addStyle(`
                     .subsbutton{
                         border: 1px solid #118edc;
@@ -391,15 +401,15 @@
                         transition:all 0.5s ease;
                     }
                     #subs{
-                        transform:translateX(-50%); 
+                        transform:translateX(-50%);
                         width:100%; text-shadow: 3px 3px 3px black;
-                        height:30px; 
-                        background:transparent; 
-                        font-size:28px; 
-                        position:absolute; 
-                        z-index: 99999; 
-                        bottom:14%; 
-                        left:50%; 
+                        height:30px;
+                        background:transparent;
+                        font-size:28px;
+                        position:absolute;
+                        z-index: 99999;
+                        bottom:14%;
+                        left:50%;
                         text-align:center;
                     }
                     #subsmenuwrapper *dd{
@@ -445,11 +455,11 @@
                         float:left;
                     }
                 `);
-    
+
     //  "https://api.jsonbin.io/b/5efaf2b70bab551d2b6936ad/1"       //Horse movie
     //  "https://api.jsonbin.io/b/5efb17ca0bab551d2b6945b1"         //friendship games
     //  "https://api.jsonbin.io/b/5efb1940bb5fbb1d25616984"         //forgotten friendship
     //  "https://api.jsonbin.io/b/5efb1a4f7f16b71d48a88f22"         //legends of everyfree
-    
+
     })();
-    
+
