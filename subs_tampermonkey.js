@@ -76,6 +76,16 @@
                         <div id=subserror>Not found!</div>
                     </div>`);
 
+                var fullScreenInterval = setInterval(function(){
+                    if($(".vjs-fullscreen-control").length){
+                        $(".vjs-fullscreen-control").on("click", function(){
+                            setTimeout(function(){
+                                $(".vjs-text-track-display").append('<div id=subsfullscreen></div>');
+                            }, 1000);
+                        });
+                        clearInterval(fullScreenInterval);
+                    }
+                }, 1000);
                 $("#chatbuffer").css({fontSize:"125%"});
                 let moveMail = setInterval(() => {
                     if($("#mailDiv").length){
@@ -271,6 +281,7 @@
                             if(nextPaused){
                                 let subsOutput = subs.match(/-->.*\r*\n(.+\r*\n.*)\r*\n/)[1];
                                 $("#subs").html(subsOutput.replace("\n", "<br>"));
+                                $("#subsfullscreen").html(subsOutput.replace("\n", "<br>"));
                                 nextPaused = false;
                             }
                         } else if(time > end && !nextPaused){
@@ -280,6 +291,7 @@
                             begin();
                         } else {
                             $("#subs").html("");
+                            $("#subsfullscreen").html("");
                         }
 
                         PLAYER.getTime(function(playerTime){
@@ -400,7 +412,7 @@
                         z-index:99999;
                         transition:all 0.5s ease;
                     }
-                    #subs{
+                    #subs, #subsfullscreen{
                         transform:translateX(-50%);
                         width:100%; text-shadow: 3px 3px 3px black;
                         height:30px;
