@@ -77,8 +77,9 @@
                     </div>`);
 
                 var fullScreenInterval = setInterval(function(){
-                    if($(".vjs-fullscreen-control").length){
-                        $(".vjs-fullscreen-control").on("click", function(){
+                    if($(".vjs-fullscreen-control, .fullscreen-icon").length){
+                        $(".vjs-fullscreen-control, .fullscreen-icon").on("click", function(){
+                            console.log("CLICK");
                             setTimeout(function(){
                                 $(".vjs-text-track-display").append('<div id=subsfullscreen></div>');
                             }, 1000);
@@ -277,6 +278,7 @@
                     begin();
                     // Main interval
                     subsInterval = setInterval(function(){
+
                         if(time > start && time < end){
                             if(nextPaused){
                                 let subsOutput = subs.match(/-->.*\r*\n(.+\r*\n.*)\r*\n/)[1];
@@ -423,6 +425,9 @@
                         bottom:14%;
                         left:50%;
                         text-align:center;
+                    }
+                    #subsfullscreen{
+                        font-size:38px;
                     }
                     #subsmenuwrapper *dd{
                         float:left;
