@@ -77,11 +77,11 @@
                     </div>`);
 
                 var fullScreenInterval = setInterval(function(){
-                    if($(".vjs-fullscreen-control, .fullscreen-icon").length){
-                        $(".vjs-fullscreen-control, .fullscreen-icon").on("click", function(){
-                            console.log("CLICK");
+                    if($(".vjs-fullscreen-control").length){
+                        $(".vjs-fullscreen-control").on("click", function(){
                             setTimeout(function(){
                                 $(".vjs-text-track-display").append('<div id=subsfullscreen></div>');
+                                $("#player").append('<div id=subsfullscreen></div>');
                             }, 1000);
                         });
                         clearInterval(fullScreenInterval);
@@ -153,7 +153,6 @@
                         $("#subsdisabledbutton").css({display:"block"}).siblings().css({display:"none"});
                         $("#subs").html("");
                         // Special subs                      - Horse movie, forgotten friendship, legend of everfree, friendship games
-                        console.log(epName);
                         if(specials.filter(subs => subs.toLowerCase() == epName.replace(/2$/,"1")).length){
                             let url;
                             switch(epName.replace(/2$/,"1")){
@@ -237,7 +236,6 @@
                 // Start button end
 
                 function startSubs(loadedSubs){
-                    GM_log("GM_log: subs loaded");
                     $("#subsspinner").fadeOut();
                     subsBase = loadedSubs;
                     if(oldTimings.hasOwnProperty(epName))
@@ -298,9 +296,7 @@
 
                         PLAYER.getTime(function(playerTime){
                             time = playerTime *1000 + subsMovement + part2AddedTime;
-                            GM_log("GM_log - time inside function: " + time);
                         });
-                        GM_log("GM_log - time after function: " + time);
                     }, 100);
                 }
 
