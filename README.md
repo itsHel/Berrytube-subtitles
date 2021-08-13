@@ -1,5 +1,5 @@
 # Berrytube subtitles for Tampermonkey
-Adds small UI (top-left) that lets you to auto-download and play subtitles for individual episodes and few movies.
+Adds small UI (top-left) that lets you to auto-download (from yayponies.no) and play subtitles for individual episodes and few movies.
 
 ## Supported:
 - All normal episodes s1-s9
