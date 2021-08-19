@@ -16,7 +16,7 @@
 
         // Test only
         // $("body").prepend("<div id=substest class=active><div class=title></div></div>");
-        $(".active .title").text("HMx02");
+        // $(".active .title").text("HMx02");
 
         // friendshipGames2             - NOT FINISHED
 
@@ -29,9 +29,10 @@
         // https://jsonbin.io/          - uploaded by me subs                                   // login with Github
 
         (function(){
-            let time = 0, part2AddedTime = 0, subsMovement = 0;
-            let subsBase, nextPos, start, end, subs, subsInterval, epName;
-            let subsRunning = false, nextPaused = true, menuHidden = false;
+            var time = 0, part2AddedTime = 0, subsMovement = 0;
+            var subsBase, nextPos, start, end, subs, subsInterval, epName;
+            var subsRunning = false, nextPaused = true, menuHidden = false;
+            var oldTimings = JSON.parse(window.localStorage.subsTimings ?? "{}");
             const specials = ["HMx01", "forgotten-tc", "forgotten-fc", "LOEx01", "fgx01"];
             const icons = {
                 delete: "https://img.icons8.com/ultraviolet/80/000000/delete-sign.png",
@@ -43,12 +44,6 @@
                 minus: "https://img.icons8.com/offices/30/000000/minus-math.png",
                 cancel: "https://img.icons8.com/ultraviolet/48/000000/cancel-2.png"
             }
-
-            let oldTimings;
-            if(window.localStorage.subsTimings)
-                oldTimings = JSON.parse(window.localStorage.subsTimings);
-            else
-                oldTimings = {};
 
             $(function(){
                 // Init
@@ -352,7 +347,7 @@
                 }
             });
 
-        // Doesnt exist
+        // Subs dont exist yet?
         const holidaysUnwrapped = ``;
         const rollercoasterOfFriendship = ``;
         const springBreakdown = ``;
@@ -469,10 +464,10 @@
                     }
                 `);
 
-    //  "https://api.jsonbin.io/b/5efaf2b70bab551d2b6936ad/1"       //Horse movie
-    //  "https://api.jsonbin.io/b/5efb17ca0bab551d2b6945b1"         //friendship games
-    //  "https://api.jsonbin.io/b/5efb1940bb5fbb1d25616984"         //forgotten friendship
-    //  "https://api.jsonbin.io/b/5efb1a4f7f16b71d48a88f22"         //legends of everyfree
+    //  "https://api.jsonbin.io/b/5efaf2b70bab551d2b6936ad/1"       // Horse movie
+    //  "https://api.jsonbin.io/b/5efb17ca0bab551d2b6945b1"         // Friendship games
+    //  "https://api.jsonbin.io/b/5efb1940bb5fbb1d25616984"         // Forgotten friendship
+    //  "https://api.jsonbin.io/b/5efb1a4f7f16b71d48a88f22"         // Legends of everyfree
 
     })();
 
