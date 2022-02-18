@@ -33,6 +33,8 @@
             var subsBase, nextPos, start, end, subs, subsInterval, epName;
             var subsRunning = false, nextPaused = true, menuHidden = false;
             var oldTimings = JSON.parse(window.localStorage.subsTimings ?? "{}");
+                
+            const cors = "https://thingproxy.freeboard.io/fetch/";
             const specials = ["HMx01", "forgotten-tc", "forgotten-fc", "LOEx01", "fgx01"];
             const icons = {
                 delete: "https://img.icons8.com/ultraviolet/80/000000/delete-sign.png",
@@ -190,7 +192,7 @@
                                 
                             $.ajax({
                                 method:"GET",
-                                url:"https://cors-anywhere.herokuapp.com/yp1.yayponies.no/subtitles/subs/" + epName + ".srt?callback=?",
+                                url: cors + "yp1.yayponies.no/subtitles/subs/" + epName + ".srt?callback=?",
                                 statusCode: {
                                     404: () => {
                                         console.log("404");
