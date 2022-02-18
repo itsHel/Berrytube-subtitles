@@ -18,15 +18,15 @@
         // $("body").prepend("<div id=substest class=active><div class=title></div></div>");
         // $(".active .title").text("HMx02");
 
-        // friendshipGames2             - NOT FINISHED
+        // friendshipGames2                     - NOT FINISHED
 
         // video id ="videowrap"
-        // video id ="ytapiplayer"      - same but position relative
+        // video id ="ytapiplayer"              - same but position relative
 
-        // $(".volatile.active .title")             - title of playing now
-        // $(".volatile.active .time")              - videoLength of playing now
+        // $(".volatile.active .title")         - title of playing now
+        // $(".volatile.active .time")          - videoLength of playing now
 
-        // https://jsonbin.io/          - uploaded by me subs                                   // login with Github
+        // https://jsonbin.io/                  - uploaded by me subs                           // login with Github
 
         (function(){
             var time = 0, part2AddedTime = 0, subsMovement = 0;
@@ -168,6 +168,7 @@
                                     url = "https://api.jsonbin.io/b/5efb1a4f7f16b71d48a88f22";
                                     break;
                             }
+                                
                             $.getJSON(url, function(result, status){
                                 if(status != "success"){
                                     console.log("I just dont know what went wrong");
@@ -186,6 +187,7 @@
                             } else if(epName.match(/[1-9]x[0-9][0-9]/)){
                                 epName = "0" + epName.match(/[1-9]x[0-9][0-9]/)[0];
                             }
+                                
                             $.ajax({
                                 method:"GET",
                                 url:"https://cors-anywhere.herokuapp.com/yp1.yayponies.no/subtitles/subs/" + epName + ".srt?callback=?",
@@ -233,15 +235,18 @@
                 function startSubs(loadedSubs){
                     $("#subsspinner").fadeOut();
                     subsBase = loadedSubs;
+                        
                     if(oldTimings.hasOwnProperty(epName))
                         subsMovement = oldTimings[epName];
                     else
                         subsMovement = 0;
+                        
                     $("#subsmove").text(subsMovement);
                     part2AddedTime = 0;
                     subsRunning = true;
                     $("#subsstopbutton").css({display:"block"}).siblings().css({display:"none"});
                     clearInterval(subsInterval);
+                        
                     nextPos = subsBase.indexOf(" --> ");
                     start = convertTime(subsBase.slice(nextPos - 12, nextPos));
                     end = convertTime(subsBase.slice(nextPos + 5, nextPos + 17));
